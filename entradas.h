@@ -25,6 +25,9 @@ int em_branco(char *string)
         return 0;
     }
 }
+/*
+    inserir formatação de texto
+*/
 
 void ler_menu(char input)
 {
