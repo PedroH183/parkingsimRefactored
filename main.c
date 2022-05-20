@@ -5,10 +5,11 @@
 #include "estruturas.h"
 #include "entradas.h"
 #include "arquivos.h"
+#include "utilitarios.h"
 
-int main()
+int main(int argc, char *argv[])
 {
-    servidor * _servidor = malloc(100*sizeof(servidor));
+    servidor * _servidor = malloc(MAX*sizeof(servidor));
 
     // char input;
 
@@ -74,10 +75,19 @@ int main()
 	
 	ler_arquivo(_servidor);
 	
-	for(int i = 0; i < MAX; i++) {
-	    printf("Nome: %s Codigo: %d\n",
-	     _servidor[i].nome, _servidor[i].codigo);
-	}
+	// for(int i = 0; i < MAX; i++) {
+	//     printf("Nome: %s Codigo: %d\n",
+	//      _servidor[i].nome, _servidor[i].codigo);
+	// }
+
+    qsort(_servidor, MAX, sizeof(servidor), comparar_servidor);
+
+    for(int i = 0; i < MAX; i++)
+    {
+        printf("%s\n", _servidor[i].nome);
+    }
+
+    printf("%d", encontrar_servidor("Xerxs", _servidor, MAX)); // Exemplo, retorna 0
 
     free(_servidor);
 
