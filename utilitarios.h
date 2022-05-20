@@ -18,7 +18,7 @@ int comparar_veiculo(const void *v1, const void*v2)
     const veiculo *veic1 = v1;
     const veiculo *veic2 = v2;
 
-    return veic1->codigo == veic2->codigo ? 0 : 1
+    return (veic1->codigo == veic2->codigo ? 0 : 1);
 }
 
 void * encontrar_elemento(const void *valor, void * base, size_t *nmembros, size_t tamanho, int(*compar)(const void *v1, const void*v2))
