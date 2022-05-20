@@ -13,19 +13,26 @@ int comparar_servidor(const void *v1, const void *v2) //Logica implementada em q
     return strcmp(s1->nome, s2->nome);
 }
 
-int encontrar_servidor(char * nome, servidor * vetor, int tam_vetor) //So funciona para vetores ordenados
+int comparar_veiculo(const void *v1, const void*v2)
 {
-    servidor alvo, *resultado;
-    strcpy(alvo.nome, nome);
-    resultado = bsearch(&alvo, vetor, tam_vetor, sizeof(servidor), comparar_servidor); //Bsearch (pesquisa binaria) retorna um ponteiro
+    const veiculo *veic1 = v1;
+    const veiculo *veic2 = v2;
 
-    if(resultado)
+    return veic1->codigo == veic2->codigo ? 0 : 1
+}
+
+void * encontrar_elemento(const void *valor, void * base, size_t *nmembros, size_t tamanho, int(*compar)(const void *v1, const void*v2))
+{
+    const void *resultado = base;
+    size_t cnt = 0;
+
+    while(cnt < *nmembros && (*compar)(valor, resultado) != 0)
     {
-        return 1;
-    } else
-    {
-        return 0;
+        resultado += tamanho;
+        ++cnt;
     }
+
+    return cnt < *nmembros ? (void *) resultado : NULL;
 }
 
 //Usar operador de ponteiros quando passar argumentos. Ex: imprimir_servidor(&servidor[i])
