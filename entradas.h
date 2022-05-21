@@ -29,10 +29,11 @@ int em_branco(char *string)
     inserir formatação de texto
 */
 
-void ler_menu(char input)
+char ler_menu(char input)
 {
     scanf("%c", &input);
     fflush(stdin);
+    return input;
 }
 
 #endif

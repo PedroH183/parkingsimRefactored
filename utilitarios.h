@@ -40,7 +40,7 @@ void imprimir_servidor(servidor * _servidor)
     printf("Codigo: %d\nNome: %s\nSia: %s\nCpf: %s\nNascimento: %s\nEndereco: %s\nRg: %s\nSalario: %s\nTipo: %s\n\n",
             _servidor->codigo,
             _servidor->nome,
-            _servidor->sia,
+            _servidor->siape,
             _servidor->cpf,
             _servidor->nascimento,
             _servidor->endereco,
