@@ -35,9 +35,4 @@ void ler_menu(char input)
     fflush(stdin);
 }
 
-int ler_string(int (*f)(char[]), char *string)
-{
-
-}
-
 #endif
