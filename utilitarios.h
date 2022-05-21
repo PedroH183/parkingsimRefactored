@@ -1,8 +1,6 @@
 #ifndef UTILITARIOS_H
 #define UTILITARIOS_H
 
-#define TAM sizeof(_servidor)/sizeof(servidor)
-
 #include <string.h>
 
 int comparar_servidor(const void *v1, const void *v2) //Logica implementada em qsort

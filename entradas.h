@@ -36,9 +36,4 @@ char ler_menu(char input)
     return input;
 }
 
-int ler_string(int (*f)(char[]), char *string)
-{
-
-}
-
 #endif
