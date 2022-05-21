@@ -64,20 +64,6 @@ int main(int argc, char *argv[])
 
     } while (input != '0');
 
-	// for(int i = 0; i < MAX; i++) {
-	//     strcpy(_servidor[i].nome, "Tiago");
-	//     _servidor[i].codigo = i;
-	// }
-	
-	// escrever_arquivo(_servidor);
-	
-	// ler_arquivo(_servidor);
-	
-	// for(int i = 0; i < MAX; i++) {
-	//     printf("Nome: %s Codigo: %d\n",
-	//      _servidor[i].nome, _servidor[i].codigo);
-	// }
-
     free(_servidor);
 
     return 0;
