@@ -32,15 +32,6 @@ void criar_servidor(char nome_temp[],char siape_temp[],char cpf_temp[], char nas
     }
     */
 
-    nome_temp[strcspn(nome_temp,"\n")] = '\0';
-    siape_temp[strcspn(siape_temp,"\n")] = '\0';
-    cpf_temp[strcspn(cpf_temp,"\n")] = '\0';
-    nasci_temp[strcspn(nasci_temp,"\n")] = '\0';
-    ende_temp[strcspn(ende_temp,"\n")] = '\0';
-    rg_temp[strcspn(rg_temp,"\n")] = '\0';
-    salar_temp[strcspn(salar_temp,"\n")] = '\0';
-    tipo_temp[strcspn(tipo_temp,"\n")] = '\0';
-    
     _servidor_ptr[codigo] = malloc(sizeof(servidor));// ponteiro recebendo um bloco de memória 
     _servidor_ptr[codigo]->codigo = codigo; // inteiro
     strcpy(_servidor_ptr[codigo]->nome, nome_temp);
@@ -68,7 +59,6 @@ void list_serv(servidor * _servidor[])//recebe um vetor de ponteiros
   pop_struct(arquivo,_servidor);
 
   printf("\n############Listando#########\n");
-  printf("\nID\tNOME\tIDADE\n");
 
   for(int i = 1 ; i <= MAX ; ++i)
   {
@@ -95,7 +85,7 @@ void list_serv(servidor * _servidor[])//recebe um vetor de ponteiros
 }
 
 
-void libera_memoria(servidor *ptr_servidor[])
+void libera_memoria(servidor *ptr_servidor[]) // liberar a alocação 
 {
   for(int i = 1 ; i< MAX; ++i )
   {
@@ -140,7 +130,7 @@ void pop_struct(FILE *file,servidor *ptr_serv[])// função que popula as struct
   return ;
 }
 
-void limpar_vet_ptrs(servidor *_servidor[])
+void limpar_vet_ptrs(servidor *_servidor[]) // tira possiveis interferencias dos apontadores 
 {
   for(int i = 0; i <= MAX; i++)
   {

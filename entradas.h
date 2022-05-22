@@ -36,4 +36,12 @@ char ler_menu(char input)
     return input;
 }
 
+char *ler_campo(char *texto, char *campo)
+{
+    printf(texto);
+    fgets(campo,sizeof(campo),stdin);
+    campo[strcspn(campo,"\n")] = '\0';
+    fflush(stdin);
+} // não precisa de return pq altera no endereço de memória por meio de um ponteiro
+ 
 #endif

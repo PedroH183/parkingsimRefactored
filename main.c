@@ -42,31 +42,17 @@ int main(int argc, char *argv[])
             case inserir_servidor:
         
                 //do {
-                printf("Digite o nome do Servidor : \n:");
-                fgets(nome,sizeof(nome),stdin);
-                fflush(stdin);
-                printf("Digite o siape do Servidor : \n:");
-                fgets(siape,sizeof(siape),stdin);
-                fflush(stdin);
-                printf("Digite o cpf do Servidor : \n:");
-                fgets(cpf,sizeof(cpf),stdin);
-                fflush(stdin);
+                ler_campo("Digite o nome do Servidor \n:",nome); // obrigatorio e não pode repetir
+                ler_campo("Digite o siape do Servidor : \n:", siape); // obrigadorio e não pode repetir
+                ler_campo("Digite o cpf do Servidor \n:", cpf); // obrigatorio e não pode repetir
+                
                 //strcpy(aux,'1');
 
                 //}while( checa_branco(nome,siape,cpf,aux) );
-
-                printf("Digite a data de nascimento do Servidor : \n:");
-                fgets(nasci,sizeof(nasci),stdin);
-                fflush(stdin);
-                printf("Digite o rg do Servidor : \n:");
-                fgets(rg,sizeof(rg),stdin);
-                fflush(stdin);
-                printf("Digite o salario do servidor : \n:");
-                fgets(salario,sizeof(salario),stdin);
-                fflush(stdin);
-                printf("Digite o endereco do Servidor : \n:");
-                fgets(endereco,sizeof(endereco),stdin);
-                fflush(stdin);
+                ler_campo("Digite a data de nascimento do servidor :\n", nasci);
+                ler_campo("Digite o rg do Servidor : \n:",rg);
+                ler_campo("Digite o salario do servidor : \n:",salario);
+                ler_campo("Digite o endereco do Servidor : \n:",endereco);
 
                 criar_servidor(nome,siape,cpf,nasci,rg,tipo,salario,endereco,_servidor);
                 
@@ -78,6 +64,7 @@ int main(int argc, char *argv[])
                 //
                 break;
             case listar_servidor:
+            
                 printf("Digite a forma como deseja printar os servidores\n\n");
                 printf("1. Printar apenas os Tecnicos \n");
                 printf("2. Printar apenas os professores \n");
