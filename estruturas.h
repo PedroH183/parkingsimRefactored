@@ -15,7 +15,7 @@ typedef struct Veiculo
 typedef struct Servidor
 {
     int codigo;
-    //int ativo; // 0 para livre 1 para ocupado
+    int ativo; // 0 para livre 1 para ocupado
     char nome[255];
     char siape[255];
     char cpf[255];

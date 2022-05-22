@@ -10,10 +10,10 @@
 
 int main(int argc, char *argv[])
 {
-    char aux,nome[255],siape[255],cpf[255],nasci[255],rg[255],tipo[255],salario[255],endereco[255];
-    //servidor * _servidor = malloc(MAX*sizeof(servidor));
-    servidor * _servidor[MAX];
-    limpar_vet_ptrs(_servidor);
+    char aux[MAX],nome[MAX],siape[MAX],cpf[MAX],nasci[MAX],rg[MAX],tipo[MAX],salario[MAX],endereco[MAX];
+    
+    servidor * _servidor = malloc(MAX*sizeof(servidor));
+    ler_arquivo(_servidor,sizeof(servidor),MAX);
 
     fflush(stdin);
     char input = '~';
@@ -37,24 +37,31 @@ int main(int argc, char *argv[])
         {
             case sair_do_programa:
                 printf("\nSalvando dados e terminando programa...\n\n");
-                //escrever_arquivo();
+                escrever_arquivo(_servidor,sizeof(servidor),MAX);
+
                 return 0;
             case inserir_servidor:
         
                 //do {
-                ler_campo("Digite o nome do Servidor \n:",nome); // obrigatorio e não pode repetir
-                ler_campo("Digite o siape do Servidor : \n:", siape); // obrigadorio e não pode repetir
-                ler_campo("Digite o cpf do Servidor \n:", cpf); // obrigatorio e não pode repetir
+                strcpy(nome,ler_campo("Digite o nome do Servidor \n:",nome)); // obrigatorio e não pode repetir
+                strcpy(siape,ler_campo("Digite o siape do Servidor\n:",siape)); // obrigadorio e não pode repetir
+                strcpy(cpf,ler_campo("Digite o cpf do Servidor  \n:",cpf)); // obrigatorio e não pode repetir
                 
                 //strcpy(aux,'1');
 
                 //}while( checa_branco(nome,siape,cpf,aux) );
-                ler_campo("Digite a data de nascimento do servidor :\n", nasci);
-                ler_campo("Digite o rg do Servidor : \n:",rg);
-                ler_campo("Digite o salario do servidor : \n:",salario);
-                ler_campo("Digite o endereco do Servidor : \n:",endereco);
+                strcpy(nasci,ler_campo("Digite a data de nascimento do servidor\n:", nasci));
+                strcpy(rg,ler_campo("Digite o rg do Servidor\n:",rg));
+                strcpy(salario,ler_campo("Digite o salario do servidor\n:",salario));
+                strcpy(endereco,ler_campo("Digite o endereco do Servidor\n:",endereco));
 
-                criar_servidor(nome,siape,cpf,nasci,rg,tipo,salario,endereco,_servidor);
+                do{
+                    strcpy(aux,ler_campo("Digite o tipo de Servidor\n1-Professor  2-Tecnico\n::",aux));
+                    strcpy(tipo,rece_type_serv(aux));
+                }while(strcmp(aux,"1") && strcmp(aux,"2"));
+                
+
+                printf("\n%s\n",criar_servidor(nome,siape,cpf,nasci,rg,tipo,salario,endereco,_servidor));
                 
                 break;
             case alterar_servidor:
@@ -64,7 +71,7 @@ int main(int argc, char *argv[])
                 //
                 break;
             case listar_servidor:
-            
+
                 printf("Digite a forma como deseja printar os servidores\n\n");
                 printf("1. Printar apenas os Tecnicos \n");
                 printf("2. Printar apenas os professores \n");

@@ -3,6 +3,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 enum menu
 {
@@ -25,9 +26,6 @@ int em_branco(char *string)
         return 0;
     }
 }
-/*
-    inserir formatação de texto
-*/
 
 char ler_menu(char input)
 {
@@ -36,12 +34,35 @@ char ler_menu(char input)
     return input;
 }
 
-char *ler_campo(char *texto, char *campo)
+const char *ler_campo(char *texto, char *campo)
 {
-    printf(texto);
-    fgets(campo,sizeof(campo),stdin);
-    campo[strcspn(campo,"\n")] = '\0';
-    fflush(stdin);
-} // não precisa de return pq altera no endereço de memória por meio de um ponteiro
- 
+    fflush( stdin );
+    printf( texto );
+    fgets( campo, MAX, stdin);
+    campo[ strcspn(campo,"\n") ] = '\0';
+    fflush( stdin );
+
+    return campo;
+}
+
+char *caixa_correcao(char campo[])
+{
+    for(int i = 0 ; i < MAX ; ++i)
+    {
+        campo[0] = toupper(campo[0]);
+
+        if(campo[i] == ' '){
+            campo[i+1] = toupper(campo[i+1]);
+        }
+        if(campo[i-1] == ' '){
+            continue;
+        }else{
+            campo[i] = tolower(campo[i]);
+        }
+    } // deixei dessa forma pq aberto ocupa um espaço desnecessário.
+    
+    return campo;
+}
+
+
 #endif
