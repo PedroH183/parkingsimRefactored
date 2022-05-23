@@ -49,4 +49,15 @@ void imprimir_servidor(servidor * _servidor)
             _servidor->tipo);
 }
 
+int busca_livre(servidor * grupo)
+{
+	for(int i = 1; i < MAX; i++)
+	{
+		if(!grupo[i].ativo)// buscar proximos indices 
+		{
+			return i;
+		}
+	}
+}
+
 #endif

@@ -17,6 +17,14 @@ enum menu
     remover_veiculo = '7',
     listar_veiculo = '8',
 };
+enum menu_listar_serv
+{
+    print_tecnicos = '1',
+    print_prof = '2',
+    print_all = '3',
+    print_especif ='4',
+    return_menu = '5',
+};
 
 int em_branco(char *string)
 {

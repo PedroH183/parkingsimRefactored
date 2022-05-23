@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 #include "estruturas.h"
 #include "servidor.h"
@@ -10,42 +11,31 @@
 #include "utilitarios.h"
 
 
-char* criar_servidor(char nome_temp[],char siape_temp[],char cpf_temp[], char nasci_temp[],
-                    char rg_temp[],char tipo_temp[],char salar_temp[],char ende_temp[], servidor *_servidor_ptr)
+char* criar_servidor(char *nome_temp,char *siape_temp,char *cpf_temp, char *nasci_temp,
+                    char *rg_temp,char *tipo_temp,char *salar_temp,char *ende_temp, servidor *_servidor_ptr)
 { 
-    FILE *f_ptr = fopen("data.bin", "rb+");
-    int codigo = (quantia_regist_arq(f_ptr) + 1); // retrição lógica
-    fclose(f_ptr);
+    int codigo = (quantia_regist_arq() + 1); // retrição lógica
     
-    /*
-      criar um campo ativos para sobre-escrever os dados daquela estrutura em específico
-      é mais fácil que trabalhar com realoc
-    */
-
-    /*
-      fazer um teste de campos inativos e sobre-escrever nesse exato indice 
-      se falso eu verifico a quantia de saves se é maior que SERV_REGIS 
-      caso os dois de cima sejam falsos não há espaço
-   
-    if(codigo > SERV_REGIS){
-      printf("Nao ha mais espaço disponivel!!\n");
-      return;
+    if(codigo >= MAX) // codigo sempre que retornar de codigo será 101 ! erro de tamanho
+    {
+      codigo = busca_livre(_servidor_ptr);
     }
-    */
 
     _servidor_ptr[codigo].codigo = codigo; // inteiro
-    _servidor_ptr[codigo].ativo = 1;
-    strcpy(_servidor_ptr[codigo].nome, nome_temp);
-    strcpy(_servidor_ptr[codigo].siape,siape_temp);
-    strcpy(_servidor_ptr[codigo].cpf,cpf_temp);
-    strcpy(_servidor_ptr[codigo].nascimento, nasci_temp);
+    _servidor_ptr[codigo].ativo = true;
+    strcpy(_servidor_ptr[codigo].nome, caixa_correcao(nome_temp));
+    strcpy(_servidor_ptr[codigo].siape,caixa_correcao(siape_temp));
+    strcpy(_servidor_ptr[codigo].cpf,caixa_correcao(cpf_temp));
+    strcpy(_servidor_ptr[codigo].nascimento, caixa_correcao(nasci_temp));
     
-    strcpy(_servidor_ptr[codigo].rg,rg_temp);
-    strcpy(_servidor_ptr[codigo].tipo,tipo_temp);
-    strcpy(_servidor_ptr[codigo].salario, salar_temp);
-    strcpy(_servidor_ptr[codigo].endereco,ende_temp);
-  
-  return "\nCADASTRO REALIZADO COM SUCESSO !\n";
+    strcpy(_servidor_ptr[codigo].rg,caixa_correcao(rg_temp));
+    strcpy(_servidor_ptr[codigo].tipo,caixa_correcao(tipo_temp));
+    strcpy(_servidor_ptr[codigo].salario, caixa_correcao(salar_temp));
+    strcpy(_servidor_ptr[codigo].endereco,caixa_correcao(ende_temp));
+
+    escrever_arquivo(_servidor_ptr,sizeof(servidor),MAX);
+    
+    return "CADASTRO REALIZADO COM SUCESSO !";
 }
 
 void list_serv(servidor * _servidor)//recebe um vetor de inteiros que vai ser ordenado !! 
@@ -54,7 +44,7 @@ void list_serv(servidor * _servidor)//recebe um vetor de inteiros que vai ser or
 
   for(int i = 1 ; i <= MAX ; ++i)
   {
-    if( (&_servidor[i])->ativo != 0)
+    if( (&_servidor[i])->ativo) // só prita se for true
     {
       printf("Codigo: %d\nNome: %s\nSiape: %s\nCpf: %s\nNascimento: %s\nEndereco: %s\nRg: %s\nSalario: %s\nTipo: %s\n\n",
             (&_servidor[i])->codigo,
@@ -96,19 +86,15 @@ void limpar_vet_ptrs(servidor *_servidor) // tira possiveis interferencias dos a
   return;
 }
 
-int quantia_regist_arq(FILE *ptr_f) 
+int quantia_regist_arq() 
 {
-  /*
-    Usar a lógica de um arquivo auxiliar que salva a quantia de registros feitos 
-    Criar um arquivo que vai armazenar os indices == Codigo
-
-
-
-  */
-
+  FILE *f_ptr = fopen(NAME_FILE, "rb+");
 	int qutd_saves = 0;
-	fseek(ptr_f,0,SEEK_END);
-	qutd_saves = (ftell(ptr_f)/sizeof(servidor)); // retorna a quantia de registros savos
+
+	fseek(f_ptr,0,SEEK_END);
+	qutd_saves = (ftell(f_ptr)/sizeof(servidor)); // retorna a quantia de registros savos
+  
+  fclose(f_ptr);
 
 	return qutd_saves;
 }

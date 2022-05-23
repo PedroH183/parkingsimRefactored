@@ -3,9 +3,11 @@
 
 #include "estruturas.h"
 
+#define NAME_FILE "data.bin"
+
 int escrever_arquivo(void * objeto, size_t tam_struct, int cont)
 {
-    FILE *fptr = fopen("data.bin", "wb");
+    FILE *fptr = fopen(NAME_FILE, "wb");
     if(fptr == NULL)
     {
         return 1;
@@ -18,10 +20,10 @@ int escrever_arquivo(void * objeto, size_t tam_struct, int cont)
 
 int ler_arquivo(void * objeto, size_t tam_struct, int cont)
 {
-    FILE *fptr = fopen("data.bin", "rb");
+    FILE *fptr = fopen(NAME_FILE, "rb");
     if(fptr == NULL)
     {
-        fptr = fopen("data.bin","w");
+        fptr = fopen(NAME_FILE,"wb");
         if(fptr == NULL)
         {
             perror("\nERRO AO TENTAR CRIAR O ARQUIVO !! \n");

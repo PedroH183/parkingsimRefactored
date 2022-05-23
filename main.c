@@ -81,14 +81,16 @@ int main(int argc, char *argv[])
                 
                 scanf("%c",&input);
                 fflush(stdin);
-
-                if( input == '1' || input == '2' || input == '3' )
+                
+                if( input == print_tecnicos || input == print_prof || input == print_all )
                 {
                     list_serv(_servidor);
                     //copying_nomes(input);
-                }else if( input == '4'){
+                }else if( input == print_especif )
+                {
                     //print_serv_cod();
-                }else if(input == '5'){
+                }else if( input == return_menu )
+                {
                     printf("\n\n");
                     break;
                 }else{
@@ -114,7 +116,7 @@ int main(int argc, char *argv[])
 
     } while (input != '0');
 
-    //free(_servidor);
-    libera_memoria(_servidor);
+    free(_servidor);
+    //libera_memoria(_servidor);
     return 0;
 }
