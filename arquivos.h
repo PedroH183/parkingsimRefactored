@@ -3,37 +3,46 @@
 
 #include "estruturas.h"
 
-#define NAME_FILE "data.bin"
+#define NOME_ARQUIVO "data.bin"
 
-int escrever_arquivo(void * objeto, size_t tam_struct, int cont)
+int escrever_arquivo(controle* ptr_controle)
 {
-    FILE *fptr = fopen(NAME_FILE, "wb");
-    if(fptr == NULL)
-    {
-        return 1;
-    }
+	FILE *fptr = fopen(NOME_ARQUIVO, "wb");
+	if(fptr == NULL)
+	{
+		return 1;
+	}
 
-    fwrite(objeto, tam_struct * cont, 1, fptr);
+	fwrite(ptr_controle->servidor, ptr_controle->tamanho*sizeof(servidor), 1, fptr);
 
-    fclose(fptr);
+	fclose(fptr);
 }
 
-int ler_arquivo(void * objeto, size_t tam_struct, int cont)
+int ler_arquivo(controle* ptr_controle)
 {
-    FILE *fptr = fopen(NAME_FILE, "rb");
-    if(fptr == NULL)
-    {
-        fptr = fopen(NAME_FILE,"wb");
-        if(fptr == NULL)
-        {
-            perror("\nERRO AO TENTAR CRIAR O ARQUIVO !! \n");
-            exit(1); // erro interpretado ;
-        }
-    }
+	FILE *fptr = fopen(NOME_ARQUIVO, "rb");
+	if(fptr == NULL)
+	{
+		return 1;
+	}
 
-    fread(objeto, tam_struct * cont, 1, fptr);
+	fread(ptr_controle->servidor, ptr_controle->tamanho*sizeof(servidor), 1, fptr);
 
-    fclose(fptr);
+	fclose(fptr);
+}
+
+int buscar_tamanho()
+{
+	FILE *fptr = fopen(NOME_ARQUIVO, "ab");
+	if(fptr == NULL)
+	{
+		return 1;
+	}
+
+	fseek(fptr, 0L, SEEK_END);
+	int tamanho = ftell(fptr);
+
+	return tamanho / sizeof(servidor);
 }
 
 #endif

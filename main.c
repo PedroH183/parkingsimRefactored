@@ -10,6 +10,9 @@
 
 int main(int argc, char *argv[])
 {
+    // controle _controle = inicializar_controle(_controle);
+	// ler_arquivo(&_controle);
+
     char aux[MAX],nome[MAX],siape[MAX],cpf[MAX],nasci[MAX],rg[MAX],tipo[MAX],salario[MAX],endereco[MAX];
     
     servidor * _servidor = malloc(MAX*sizeof(servidor));

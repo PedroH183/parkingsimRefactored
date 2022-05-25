@@ -1,10 +1,9 @@
 #ifndef ESTRUTURAS_H
 #define ESTRUTURAS_H
 
-#define MAX 100
-
 typedef struct Veiculo
 {
+    int ocupado;
     int codigo;
     char modelo[255];
     char descricao[255];
@@ -14,8 +13,8 @@ typedef struct Veiculo
 
 typedef struct Servidor
 {
+    int ocupado;
     int codigo;
-    int ativo; // 0 para livre 1 para ocupado
     char nome[255];
     char siape[255];
     char cpf[255];
@@ -27,5 +26,11 @@ typedef struct Servidor
 
     veiculo veiculo[10];
 } servidor;
+
+typedef struct Controle
+{
+	int tamanho;
+	servidor* servidor;
+} controle;
 
 #endif
