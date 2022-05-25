@@ -15,5 +15,6 @@ const char *rece_type_serv(char opcao[]);
 char *caixa_correcao(char campo[]);
 const char *ler_campo(char *texto, char *campo);
 int busca_livre(servidor * grupo);
+int cod_p_cadastro(servidor *_servidor_ptr);
 
 #endif

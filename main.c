@@ -10,7 +10,9 @@
 
 int main(int argc, char *argv[])
 {
-    char aux[MAX],nome[MAX],siape[MAX],cpf[MAX],nasci[MAX],rg[MAX],tipo[MAX],salario[MAX],endereco[MAX];
+    int done = 1,op;
+    char aux[MAX],nome[MAX],siape[MAX],cpf[MAX],nasci[MAX],rg[MAX],tipo_serv[MAX],salario[MAX],endereco[MAX];
+
     
     servidor * _servidor = malloc(MAX*sizeof(servidor));
     ler_arquivo(_servidor,sizeof(servidor),MAX);
@@ -49,7 +51,7 @@ int main(int argc, char *argv[])
                 
                 //strcpy(aux,'1');
 
-                //}while( checa_branco(nome,siape,cpf,aux) );
+                //}while( checar_em_branco(nome,siape,cpf,aux) );
                 strcpy(nasci,ler_campo("Digite a data de nascimento do servidor\n:", nasci));
                 strcpy(rg,ler_campo("Digite o rg do Servidor\n:",rg));
                 strcpy(salario,ler_campo("Digite o salario do servidor\n:",salario));
@@ -57,11 +59,11 @@ int main(int argc, char *argv[])
 
                 do{
                     strcpy(aux,ler_campo("Digite o tipo de Servidor\n1-Professor  2-Tecnico\n::",aux));
-                    strcpy(tipo,rece_type_serv(aux));
+                    strcpy(tipo_serv,rece_type_serv(aux));
                 }while(strcmp(aux,"1") && strcmp(aux,"2"));
                 
 
-                printf("\n%s\n",criar_servidor(nome,siape,cpf,nasci,rg,tipo,salario,endereco,_servidor));
+                printf("\n%s\n",criar_servidor(nome,siape,cpf,nasci,rg,tipo_serv,salario,endereco,_servidor));
                 
                 break;
             case alterar_servidor:

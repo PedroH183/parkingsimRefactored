@@ -15,36 +15,38 @@ char* criar_servidor(char *nome_temp,char *siape_temp,char *cpf_temp, char *nasc
                     char *rg_temp,char *tipo_temp,char *salar_temp,char *ende_temp, servidor *_servidor_ptr)
 { 
     int codigo = (quantia_regist_arq() + 1); // retrição lógica
-    
+    int index = 1;
+
     if(codigo >= MAX) // codigo sempre que retornar de codigo será 101 ! erro de tamanho
     {
-      codigo = busca_livre(_servidor_ptr);
+      index = busca_livre(_servidor_ptr); // busca um campo livre para cadastrar
+      codigo = cod_p_cadastro(_servidor_ptr); // retorna um codigo lógico para o servidor
     }
 
-    _servidor_ptr[codigo].codigo = codigo; // inteiro
-    _servidor_ptr[codigo].ativo = true;
-    strcpy(_servidor_ptr[codigo].nome, caixa_correcao(nome_temp));
-    strcpy(_servidor_ptr[codigo].siape,caixa_correcao(siape_temp));
-    strcpy(_servidor_ptr[codigo].cpf,caixa_correcao(cpf_temp));
-    strcpy(_servidor_ptr[codigo].nascimento, caixa_correcao(nasci_temp));
+    _servidor_ptr[index].codigo = codigo; // inteiro
+    _servidor_ptr[index].ativo = true;
+    strcpy(_servidor_ptr[index].nome, caixa_correcao(nome_temp));
+    strcpy(_servidor_ptr[index].siape,caixa_correcao(siape_temp));
+    strcpy(_servidor_ptr[index].cpf,caixa_correcao(cpf_temp));
+    strcpy(_servidor_ptr[index].nascimento, caixa_correcao(nasci_temp));
     
-    strcpy(_servidor_ptr[codigo].rg,caixa_correcao(rg_temp));
-    strcpy(_servidor_ptr[codigo].tipo,caixa_correcao(tipo_temp));
-    strcpy(_servidor_ptr[codigo].salario, caixa_correcao(salar_temp));
-    strcpy(_servidor_ptr[codigo].endereco,caixa_correcao(ende_temp));
+    strcpy(_servidor_ptr[index].rg,caixa_correcao(rg_temp));
+    strcpy(_servidor_ptr[index].tipo,caixa_correcao(tipo_temp));
+    strcpy(_servidor_ptr[index].salario, caixa_correcao(salar_temp));
+    strcpy(_servidor_ptr[index].endereco,caixa_correcao(ende_temp));
 
     escrever_arquivo(_servidor_ptr,sizeof(servidor),MAX);
     
     return "CADASTRO REALIZADO COM SUCESSO !";
 }
 
-void list_serv(servidor * _servidor)//recebe um vetor de inteiros que vai ser ordenado !! 
+void list_serv(servidor * _servidor)//recebe um vetor de inteiros que deve ser ordenado !! 
 {
   printf("\n############Listando#########\n");
 
   for(int i = 1 ; i <= MAX ; ++i)
   {
-    if( (&_servidor[i])->ativo) // só prita se for true
+    if( (&_servidor[i])->ativo ) // só prita se for true
     {
       printf("Codigo: %d\nNome: %s\nSiape: %s\nCpf: %s\nNascimento: %s\nEndereco: %s\nRg: %s\nSalario: %s\nTipo: %s\n\n",
             (&_servidor[i])->codigo,
@@ -107,4 +109,25 @@ const char *rece_type_serv(char opcao[])
       printf("\nDigite uma opcao valida !!!\n");
       return "ERRO";
     }
+}
+
+int cod_p_cadastro(servidor *_servidor_ptr)
+{
+  /*
+    função para contornar falha de não cadastrar mais um determinado código no programa ! 
+    só é possível verificar com a implementação do remanejamento de registros ! 
+  */
+  int quant_saves = quantia_regist_arq();
+  for( int i = 1 ; i <= quant_saves ; ++i)
+  {
+    if( ( &_servidor_ptr[i] )-> ativo )
+    { 
+      if( i < (( &_servidor_ptr[i] )-> codigo ))
+      {
+        return i;
+        break;
+      }
+    }
+  }
+  return busca_livre(_servidor_ptr); // se chegou até aqui ele pode repetir pois os codigos estão em ordem
 }
