@@ -15,7 +15,7 @@ controle inicializar_controle(controle controle)
 	return controle;
 }
 
-controle inserir(controle controle)
+controle inserir_servidor(controle controle)
 {
 	controle.tamanho++;
 	controle.servidor = realloc(controle.servidor, controle.tamanho*sizeof(servidor));
@@ -34,7 +34,7 @@ controle inserir(controle controle)
 	return controle;
 }
 
-controle remover(controle controle, int indice)
+controle remover_servidor(controle controle, int indice)
 {
 	if(indice > controle.tamanho)
 	{
