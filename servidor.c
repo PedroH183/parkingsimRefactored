@@ -6,59 +6,55 @@
 
 #include "estruturas.h"
 #include "servidor.h"
-//#include "entradas.h"
-#include "arquivos.h"
-#include "utilitarios.h"
+#include "entradas.h"
 
 
-char* criar_servidor(char *nome_temp,char *siape_temp,char *cpf_temp, char *nasci_temp,
-                    char *rg_temp,char *tipo_temp,char *salar_temp,char *ende_temp, servidor *_servidor_ptr)
+servidor_t criar_servidor()
 { 
-    int codigo = (quantia_regist_arq() + 1); // retrição lógica
-    int index = 1;
+    servidor_t novo_servidor;
+    char aux[TAM_STR];
 
-    if(codigo >= MAX) // codigo sempre que retornar de codigo será 101 ! erro de tamanho
-    {
-      index = busca_livre(_servidor_ptr); // busca um campo livre para cadastrar
-      codigo = cod_p_cadastro(_servidor_ptr); // retorna um codigo lógico para o servidor
-    }
+    //do {
+      novo_servidor.codigo = rand();                                                                    // obrigatorio e não pode repetir
+      strcpy( novo_servidor.nome  ,ler_campo("Digite o nome do Servidor \n:",  novo_servidor.nome   )); // obrigatorio
+      strcpy( novo_servidor.siape ,ler_campo("Digite o siape do Servidor\n:",  novo_servidor.siape  )); // obrigadorio e não pode repetir
+      strcpy( novo_servidor.cpf   ,ler_campo("Digite o cpf do Servidor  \n:",  novo_servidor.cpf    )); // obrigatorio e não pode repetir
+                
+    //strcpy(aux,'1');
 
-    _servidor_ptr[index].codigo = codigo; // inteiro
-    _servidor_ptr[index].ativo = true;
-    strcpy(_servidor_ptr[index].nome, caixa_correcao(nome_temp));
-    strcpy(_servidor_ptr[index].siape,caixa_correcao(siape_temp));
-    strcpy(_servidor_ptr[index].cpf,caixa_correcao(cpf_temp));
-    strcpy(_servidor_ptr[index].nascimento, caixa_correcao(nasci_temp));
+    //}while( checar_em_branco(novo_servidor.nome,novo_servidro.siape,novo_servidor.cpf, aux) ); checar em branco --> checar repetição --> permitir passagem
     
-    strcpy(_servidor_ptr[index].rg,caixa_correcao(rg_temp));
-    strcpy(_servidor_ptr[index].tipo,caixa_correcao(tipo_temp));
-    strcpy(_servidor_ptr[index].salario, caixa_correcao(salar_temp));
-    strcpy(_servidor_ptr[index].endereco,caixa_correcao(ende_temp));
+    strcpy( novo_servidor.nascimento,ler_campo("Digite a data de nascimento do servidor\n:",novo_servidor.nascimento));
+    strcpy( novo_servidor.rg        ,ler_campo("Digite o rg do Servidor\n:",                novo_servidor.rg        ));
+    strcpy( novo_servidor.salario   ,ler_campo("Digite o salario do servidor\n:",           novo_servidor.salario   ));
+    strcpy( novo_servidor.endereco  ,ler_campo("Digite o endereco do Servidor\n:",          novo_servidor.endereco  ));
 
-    escrever_arquivo(_servidor_ptr,sizeof(servidor),MAX);
+    do{
+        strcpy(      aux           ,ler_campo("Digite o tipo de Servidor\n1-Professor  2-Tecnico\n::",   aux));
+        strcpy( novo_servidor.tipo ,rece_type_serv(aux) );
+
+      }while( strcmp( (aux) ,"1") && strcmp( (aux) ,"2") );
     
-    return "CADASTRO REALIZADO COM SUCESSO !";
+    return novo_servidor;
 }
 
-void list_serv(servidor * _servidor)//recebe um vetor de inteiros que deve ser ordenado !! 
+void list_serv( servidor_t* servidor , size_t quantia_registr)// deve receber como parametro um vetor ordenado
 {
   printf("\n############Listando#########\n");
 
-  for(int i = 1 ; i <= MAX ; ++i)
+  for(int i = 0 ; i < quantia_registr ; ++i) // quantia_registr == tamanho == quantia de registros salvos.
   {
-    if( (&_servidor[i])->ativo ) // só prita se for true
-    {
-      printf("Codigo: %d\nNome: %s\nSiape: %s\nCpf: %s\nNascimento: %s\nEndereco: %s\nRg: %s\nSalario: %s\nTipo: %s\n\n",
-            (&_servidor[i])->codigo,
-            (&_servidor[i])->nome,
-            (&_servidor[i])->siape,
-            (&_servidor[i])->cpf,
-            (&_servidor[i])->nascimento,
-            (&_servidor[i])->endereco,
-            (&_servidor[i])->rg,
-            (&_servidor[i])->salario,
-            (&_servidor[i])->tipo);
-    }
+    printf("Indice: %d\nCodigo: %d\nNome: %s\nSiape: %s\nCpf: %s\nNascimento: %s\nEndereco: %s\nRg: %s\nSalario: %s\nTipo: %s\n\n",
+            i,
+            servidor[i].codigo,
+            servidor[i].nome,
+            servidor[i].siape,
+            servidor[i].cpf,
+            servidor[i].nascimento,
+            servidor[i].endereco,
+            servidor[i].rg,
+            servidor[i].salario,
+            servidor[i].tipo);
   }
   
   printf("\n\n########FIM DA LISTAGEM######\n");
@@ -66,42 +62,7 @@ void list_serv(servidor * _servidor)//recebe um vetor de inteiros que deve ser o
   return;
 }
 
-
-void libera_memoria(servidor *ptr_servidor) // liberar a alocação 
-{
-  for(int i = 1 ; i< MAX; ++i )
-  {
-    if( (&ptr_servidor[i]) != NULL)
-    {
-      free((&ptr_servidor[i]));
-    }
-  }
-}
-
-void limpar_vet_ptrs(servidor *_servidor) // tira possiveis interferencias dos apontadores 
-{
-  for(int i = 0; i <= MAX; i++)
-  {
-      (&_servidor)[i] = NULL;
-  }
-
-  return;
-}
-
-int quantia_regist_arq() 
-{
-  FILE *f_ptr = fopen(NAME_FILE, "rb+");
-	int qutd_saves = 0;
-
-	fseek(f_ptr,0,SEEK_END);
-	qutd_saves = (ftell(f_ptr)/sizeof(servidor)); // retorna a quantia de registros savos
-  
-  fclose(f_ptr);
-
-	return qutd_saves;
-}
-
-const char *rece_type_serv(char opcao[])
+const char *rece_type_serv(const char *opcao)
 {
   if( !strcmp(opcao,"1") ) return "Professor";
   if( !strcmp(opcao,"2") ) return "Tecnico";
@@ -111,23 +72,51 @@ const char *rece_type_serv(char opcao[])
     }
 }
 
-int cod_p_cadastro(servidor *_servidor_ptr)
+/*FUNÇÕES DE ENTRADA.H DANDO IMPLICT DECLARATION*/
+
+int em_branco(char *string)
 {
-  /*
-    função para contornar falha de não cadastrar mais um determinado código no programa ! 
-    só é possível verificar com a implementação do remanejamento de registros ! 
-  */
-  int quant_saves = quantia_regist_arq();
-  for( int i = 1 ; i <= quant_saves ; ++i)
-  {
-    if( ( &_servidor_ptr[i] )-> ativo )
-    { 
-      if( i < (( &_servidor_ptr[i] )-> codigo ))
-      {
-        return i;
-        break;
-      }
+    if(!strcmp(string, "")) {
+        return 1;
+    } else {
+        return 0;
     }
-  }
-  return busca_livre(_servidor_ptr); // se chegou até aqui ele pode repetir pois os codigos estão em ordem
 }
+
+char ler_menu(char input)
+{
+  scanf("%c", &input);
+  fflush(stdin);
+  return input;
+}
+
+char* ler_campo( char *texto, char *campo )
+{
+  printf( texto );
+  fgets( campo, TAM_STR, stdin ); // aplicar o sizeof(campo) não funciona, pq ? ele puxa o tamanho do ponteiro ?
+  campo[ strcspn(campo,"\n") ] = '\0';
+  fflush( stdin );
+
+  return caixa_correcao(campo);
+}
+
+char* caixa_correcao(char *campo)
+{
+  for(int i = 0 ; i < TAM_STR; ++i)
+  {
+    campo[0] = toupper(campo[0]);
+
+    if(campo[i] == ' '){
+        campo[i+1] = toupper(campo[i+1]);
+      }
+    if(campo[i-1] == ' '){
+        continue;
+    }else{
+      campo[i] = tolower(campo[i]);
+      }
+    } 
+    
+    return campo;
+}
+
+/*FIM DAS FUNÇÕES RETIRADAS DE ENTRADA.H*/

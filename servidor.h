@@ -1,20 +1,17 @@
 #ifndef SERVIDOR_H
 #define SERVIDOR_H
 
+servidor_t criar_servidor();
+void list_serv();
+servidor_t* inserir_servidor(servidor_t* servidor_ptr, servidor_t servidor, size_t* tamanho);
 
-char* criar_servidor(char *nome_temp,char *siape_temp,char *cpf_temp, char *nasci_temp,
-                    char *ende_temp, char *rg_temp,char *salar_temp,char *tipo_temp, servidor *_servidor_ptr);
-void list_serv(servidor *);
-void libera_memoria(servidor *ptr_servidor);
-FILE *open_file(char mode[]);
-void limpar_vet_ptrs(servidor *_servidor);
-int quantia_regist_arq();
-int escrever_arquivo(void * objeto, size_t tam_struct, int cont);
-int ler_arquivo(void * objeto, size_t tam_struct, int cont);
-const char *rece_type_serv(char opcao[]);
-char *caixa_correcao(char campo[]);
-const char *ler_campo(char *texto, char *campo);
-int busca_livre(servidor * grupo);
-int cod_p_cadastro(servidor *_servidor_ptr);
+const char *rece_type_serv(const char *opcao);
+servidor_t* deletar_servidor(servidor_t* servidor_ptr, int indice, size_t* tamanho);
+
+int em_branco(char *string);
+char ler_menu(char input);
+char *ler_campo( char *texto, char *campo );
+char *caixa_correcao( char *campo );
+void opcao_list_serv();
 
 #endif

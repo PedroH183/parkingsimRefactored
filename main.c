@@ -4,21 +4,25 @@
 
 #include "estruturas.h"
 #include "entradas.h"
-//#include "arquivos.h"
-//#include "utilitarios.h"
+#include "arquivos.h"
+#include "utilitarios.h"
 #include "servidor.h"
+#include "gerenciamento.h"
 
-int main(int argc, char *argv[])
+
+int main()
 {
-    int done = 1,op;
-    char aux[MAX],nome[MAX],siape[MAX],cpf[MAX],nasci[MAX],rg[MAX],tipo_serv[MAX],salario[MAX],endereco[MAX];
+    size_t tamanho = buscar_tamanho();
+    servidor_t* servidor = malloc(MEM);
 
-    
-    servidor * _servidor = malloc(MAX*sizeof(servidor));
-    ler_arquivo(_servidor,sizeof(servidor),MAX);
+    if(tamanho)
+    {
+        ler_dados(servidor, tamanho);
+    }
 
     fflush(stdin);
     char input = '~';
+    int indice;
 
     do
     {
@@ -39,58 +43,46 @@ int main(int argc, char *argv[])
         {
             case sair_do_programa:
                 printf("\nSalvando dados e terminando programa...\n\n");
-                escrever_arquivo(_servidor,sizeof(servidor),MAX);
+                escrever_arquivo(servidor, tamanho);
 
                 return 0;
-            case inserir_servidor:
+            case insert_servidor:
         
-                //do {
-                strcpy(nome,ler_campo("Digite o nome do Servidor \n:",nome)); // obrigatorio e não pode repetir
-                strcpy(siape,ler_campo("Digite o siape do Servidor\n:",siape)); // obrigadorio e não pode repetir
-                strcpy(cpf,ler_campo("Digite o cpf do Servidor  \n:",cpf)); // obrigatorio e não pode repetir
-                
-                //strcpy(aux,'1');
-
-                //}while( checar_em_branco(nome,siape,cpf,aux) );
-                strcpy(nasci,ler_campo("Digite a data de nascimento do servidor\n:", nasci));
-                strcpy(rg,ler_campo("Digite o rg do Servidor\n:",rg));
-                strcpy(salario,ler_campo("Digite o salario do servidor\n:",salario));
-                strcpy(endereco,ler_campo("Digite o endereco do Servidor\n:",endereco));
-
-                do{
-                    strcpy(aux,ler_campo("Digite o tipo de Servidor\n1-Professor  2-Tecnico\n::",aux));
-                    strcpy(tipo_serv,rece_type_serv(aux));
-                }while(strcmp(aux,"1") && strcmp(aux,"2"));
-                
-
-                printf("\n%s\n",criar_servidor(nome,siape,cpf,nasci,rg,tipo_serv,salario,endereco,_servidor));
+                servidor = inserir_servidor(servidor, criar_servidor(), &tamanho);
                 
                 break;
             case alterar_servidor:
                 //
                 break;
             case remover_servidor:
-                //
+
+                /**
+                 * Inserir a checagem de existencia de codigo para não apagar o vazio.
+                 */
+
+                printf("\nDigite o indice do servidor\n>"); // deletar por indice ?? 
+                scanf("%d",&indice);
+                fflush(stdin);
+                servidor = deletar_servidor(servidor,indice, &tamanho);
+            
                 break;
             case listar_servidor:
 
-                printf("Digite a forma como deseja printar os servidores\n\n");
-                printf("1. Printar apenas os Tecnicos \n");
-                printf("2. Printar apenas os professores \n");
-                printf("3. Printar Todos \n");
-                printf("4. Printar um servidor pelo cod dele.\n");
-                printf("5. Para retornar ao menu\n");
+                opcao_list_serv();
                 
                 scanf("%c",&input);
                 fflush(stdin);
                 
                 if( input == print_tecnicos || input == print_prof || input == print_all )
                 {
-                    list_serv(_servidor);
+                    list_serv(servidor, tamanho); // esse list serv tem que já chamar uma função para ordenar 
                     //copying_nomes(input);
                 }else if( input == print_especif )
                 {
                     //print_serv_cod();
+                    /**
+                     * procurar um indice/codigo especifico e printar ele.
+                     */
                 }else if( input == return_menu )
                 {
                     printf("\n\n");
@@ -118,7 +110,5 @@ int main(int argc, char *argv[])
 
     } while (input != '0');
 
-    free(_servidor);
-    //libera_memoria(_servidor);
     return 0;
 }

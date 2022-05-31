@@ -5,10 +5,12 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#define TAM_STR 100
+
 enum menu
 {
     sair_do_programa = '0',
-    inserir_servidor = '1',
+    insert_servidor = '1',
     alterar_servidor = '2',
     remover_servidor = '3',
     listar_servidor = '4',
@@ -17,6 +19,7 @@ enum menu
     remover_veiculo = '7',
     listar_veiculo = '8',
 };
+
 enum menu_listar_serv
 {
     print_tecnicos = '1',
@@ -26,50 +29,14 @@ enum menu_listar_serv
     return_menu = '5',
 };
 
-int em_branco(char *string)
+void opcao_list_serv()
 {
-    if(!strcmp(string, "")) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-char ler_menu(char input)
-{
-    scanf("%c", &input);
-    fflush(stdin);
-    return input;
-}
-
-const char *ler_campo(char *texto, char *campo)
-{
-    fflush( stdin );
-    printf( texto );
-    fgets( campo, MAX, stdin);
-    campo[ strcspn(campo,"\n") ] = '\0';
-    fflush( stdin );
-
-    return campo;
-}
-
-char *caixa_correcao(char campo[])
-{
-    for(int i = 0 ; i < MAX ; ++i)
-    {
-        campo[0] = toupper(campo[0]);
-
-        if(campo[i] == ' '){
-            campo[i+1] = toupper(campo[i+1]);
-        }
-        if(campo[i-1] == ' '){
-            continue;
-        }else{
-            campo[i] = tolower(campo[i]);
-        }
-    } // deixei dessa forma pq aberto ocupa um espaço desnecessário.
-    
-    return campo;
+    printf("Digite a forma como deseja printar os servidores\n\n");
+    printf("1. Printar apenas os Tecnicos \n");
+    printf("2. Printar apenas os professores \n");
+    printf("3. Printar Todos \n");
+    printf("4. Printar um servidor pelo cod dele.\n");
+    printf("5. Para retornar ao menu\n");
 }
 
 

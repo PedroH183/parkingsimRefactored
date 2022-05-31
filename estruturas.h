@@ -1,31 +1,30 @@
 #ifndef ESTRUTURAS_H
 #define ESTRUTURAS_H
 
-#define MAX 100
+#include "entradas.h"
 
 typedef struct Veiculo
 {
+    int ocupado; // controle de veiculos 
     int codigo;
-    char modelo[255];
-    char descricao[255];
-    char marca[255];
-    char placa[255];
-} veiculo;
+    char modelo[TAM_STR];
+    char descricao[TAM_STR];
+    char marca[TAM_STR];
+    char placa[TAM_STR];
+} veiculo_t;
 
 typedef struct Servidor
 {
-    int codigo;
-    int ativo; // 0 para livre 1 para ocupado
-    char nome[255];
-    char siape[255];
-    char cpf[255];
-    char nascimento[255];
-    char endereco[255];
-    char rg[255];
-    char salario[255];
-    char tipo[255];
-
-    veiculo veiculo[10];
-} servidor;
+    int codigo; // random number
+    char nome[TAM_STR];
+    char siape[TAM_STR];
+    char cpf[TAM_STR];
+    char nascimento[TAM_STR];
+    char endereco[TAM_STR];
+    char rg[TAM_STR];
+    char salario[TAM_STR];
+    char tipo[TAM_STR];
+    veiculo_t veiculo[10];
+} servidor_t;
 
 #endif
