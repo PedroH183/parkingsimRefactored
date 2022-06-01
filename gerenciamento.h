@@ -24,7 +24,11 @@ servidor_t* deletar_servidor( servidor_t* servidor_ptr, int indice, size_t* tama
     {
         (*tamanho)--;
         free(servidor_ptr);
-        servidor_ptr = malloc((*tamanho) * sizeof(servidor_t));
+        servidor_ptr = malloc((*tamanho) * sizeof(servidor_t)); 
+    }
+    else if (!(*tamanho)) // se não contiver nada não apaga nada, pq senão trava o programa !! 
+    {
+        return servidor_ptr;
     }
     else
     {
@@ -36,7 +40,7 @@ servidor_t* deletar_servidor( servidor_t* servidor_ptr, int indice, size_t* tama
         servidor_ptr = realloc( servidor_ptr, (*tamanho) * sizeof(servidor_t) );
     }
 
-    printf("\nSERVIDOR DELETADO COM SUCESSO!\n");
+    printf("\nSERVIDOR DELETADO COM SUCESSO!\n\n");
     return servidor_ptr;
 }
 

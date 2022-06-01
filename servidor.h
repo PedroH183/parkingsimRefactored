@@ -15,8 +15,6 @@ char *caixa_correcao( char *campo );
 void opcao_list_serv();
 
 void organizando_nomes(size_t* quant_regist, servidor_t* ptr_regis, char opcao);
-void ordena_servidor(char choice,char copy_nome[][TAM_STR],size_t *quantia_regis,servidor_t* ptr_regis);
-void verificador_quantia(char choice,int quantia, int *ordenador,servidor_t* ptr_regis,size_t *quantia_registros);
 int check_type_serv(char opcao,char type_serv[]);
 
 #endif

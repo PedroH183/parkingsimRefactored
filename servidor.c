@@ -40,6 +40,7 @@ servidor_t criar_servidor()
 
 void list_serv(char choice, servidor_t* servidor , int ordenados_indices[], size_t* quantia_regis)// deve receber como parametro um vetor ordenado
 {
+  int ptrints_quantia = 0;
   printf("\n############Listando#########\n");
 
   for(int i = 0 ; i < (*quantia_regis) ; ++i) // quantia_registr == tamanho == quantia de registros salvos.
@@ -56,10 +57,18 @@ void list_serv(char choice, servidor_t* servidor , int ordenados_indices[], size
             servidor[ordenados_indices[i]].endereco,
             servidor[ordenados_indices[i]].rg,
             servidor[ordenados_indices[i]].salario,
-            servidor[ordenados_indices[i]].tipo);
+            servidor[ordenados_indices[i]].tipo,
+            ptrints_quantia++);
     }
   }
   printf("\n########FIM DA LISTAGEM######\n");
+
+  if(!ptrints_quantia)
+  {
+    printf("SEM REGISTROS PARA ESSE TIPO DE SERVIDOR\nCadastre um novo servidor\n");
+    system("pause");
+    system("cls");
+  }
 
   return;
 }
@@ -76,52 +85,40 @@ const char *rece_type_serv(const char *opcao)
 
 void organizando_nomes(size_t* quant_regist, servidor_t* ptr_regis, char opcao)
 {
-  char nomes[(*quant_regist)][100],aux[100];
-
-  for(int i = 0 ; i < (*quant_regist) ; ++i)
-  {
-    strcpy(nomes[i], ptr_regis[i].nome);
-  }
+  int vet_indice[(*quant_regist)], aux;
   
-  for( int i = 0 ; i < (*quant_regist) ; ++i){
-    for( int j = 0 ; j < ((*quant_regist) - i - 1) ; ++j)
-    {
-      if( (tolower(nomes[j][0]) > tolower(nomes[j+1][0]) ) || ( (tolower(nomes[j][0]) == tolower(nomes[j+1][0])) && (tolower(nomes[j][1]) > tolower(nomes[j+1][1])) ) )
-      {
-        strcpy(aux,nomes[j]);
-        strcpy(nomes[j],nomes[j+1]);
-        strcpy(nomes[j+1],aux);
-      }
-    }
-  }
-
-  return ordena_servidor(opcao,nomes,quant_regist,ptr_regis);
-}
-
-void ordena_servidor(char choice,char copy_nome[][TAM_STR],size_t* quantia_regis,servidor_t* ptr_regis)
-{
-  int quantia = 0,vet_indices[(*quantia_regis)];
-
-  for(int i = 0 ; i < (*quantia_regis) ; ++i)
+  if(!(*quant_regist))
   {
-    for(int j = 0 ; j < ((*quantia_regis) - i) ; ++j)
+    printf("\nCADASTRE PELO MENOS UM SERVIDOR!\n\n");
+    return;
+  }
+
+  for(int i = 0; i < (*quant_regist) ; ++i)
+  {
+    /*definindo os indices existentes*/
+    vet_indice[i] = i;
+  }
+
+  /*organizando o veto copia se a quantia for exatamente 1 ele nele executa processo*/
+  for( int i = 0 ; i < (*quant_regist) - 1  ; ++i)
+  {
+    for( int j = 0 ; j < ((*quant_regist) - i - 1 ) ; ++j)
     {
-      if( !strcmp(ptr_regis[j].nome, copy_nome[i]) ) // tirei o check typeserv daqui 
+      if( (tolower(ptr_regis[ vet_indice[j] ].nome[0]) > tolower(ptr_regis[  vet_indice[ j+1 ]].nome[0]) ) ||
+        ( (tolower(ptr_regis[ vet_indice[j] ].nome[0]) == tolower(ptr_regis[ vet_indice[ j+1 ]].nome[0])) &&
+        (tolower(ptr_regis[   vet_indice[j] ].nome[1]) > tolower(ptr_regis[  vet_indice[ j+1 ]].nome[1])) ) )
       {
-        vet_indices[i] = j;
-        quantia++;
+        /*organizando com base no nome os indices existentes*/
+        aux = vet_indice[ j ];
+        vet_indice[ j ] = vet_indice[ j + 1 ];
+        vet_indice[ j + 1 ] = aux;
       }
     }
   }
+  /*o vetor [vet_indices] está ordenado pelo bubble sort*/
+  list_serv(opcao, ptr_regis, vet_indice, quant_regist);
 
-    verificador_quantia(choice,quantia,vet_indices,ptr_regis,quantia_regis);
-    return ;
-}
-
-void verificador_quantia(char choice,int quantia, int *ordenador,servidor_t* ptr_regis,size_t *quantia_registros)
-{
-    if (!(quantia)) printf("\nSem registros!!\nCadastre um novo Servidor!!\n");
-    else list_serv(choice, ptr_regis, ordenador, quantia_registros); // não preciso passar quantia, posso passar choice para list serv, ficaria mais controlado
+  return ;
 }
 
 void opcao_list_serv()
