@@ -22,7 +22,7 @@ servidor_t criar_servidor()
                 
     //strcpy(aux,'1');
 
-    //}while( checar_em_branco(novo_servidor.nome,novo_servidro.siape,novo_servidor.cpf, aux) ); checar em branco --> checar repetição --> permitir passagem
+    //}while( checar_repeticao(novo_servidor.nome,novo_servidro.siape,novo_servidor.cpf, aux) ); checar em branco --> checar repetição --> permitir passagem
     
     strcpy( novo_servidor.nascimento,ler_campo("Digite a data de nascimento do servidor\n:",novo_servidor.nascimento));
     strcpy( novo_servidor.rg        ,ler_campo("Digite o rg do Servidor\n:",                novo_servidor.rg        ));
@@ -57,8 +57,8 @@ void list_serv(char choice, servidor_t* servidor , int *ordenados_indices, size_
             servidor[ordenados_indices[i]].endereco,
             servidor[ordenados_indices[i]].rg,
             servidor[ordenados_indices[i]].salario,
-            servidor[ordenados_indices[i]].tipo,
-            ptrints_quantia++);
+            servidor[ordenados_indices[i]].tipo);
+    ptrints_quantia++;
     }
   }
   printf("\n########FIM DA LISTAGEM######\n");
@@ -98,15 +98,14 @@ void organizando_nomes(size_t* quant_regist, servidor_t* ptr_regis, char opcao)
     /*definindo os indices existentes*/
     vet_indice[i] = i;
   }
-
-  /*organizando o veto copia se a quantia for exatamente 1 ele nele executa processo*/
+  /*organizando o veto copia se a quantia for exatamente 1 ele não executa o processo*/
   for( int i = 0 ; i < (*quant_regist) - 1  ; ++i)
   {
     for( int j = 0 ; j < ((*quant_regist) - i - 1 ) ; ++j)
     {
       if( (tolower(ptr_regis[ vet_indice[j] ].nome[0]) > tolower(ptr_regis[  vet_indice[ j+1 ]].nome[0]) ) ||
         ( (tolower(ptr_regis[ vet_indice[j] ].nome[0]) == tolower(ptr_regis[ vet_indice[ j+1 ]].nome[0])) &&
-        (tolower(ptr_regis[   vet_indice[j] ].nome[1]) > tolower(ptr_regis[  vet_indice[ j+1 ]].nome[1])) ) )
+        (  tolower(ptr_regis[   vet_indice[j] ].nome[1]) > tolower(ptr_regis[  vet_indice[ j+1 ]].nome[1])) ) )
       {
         /*organizando com base no nome os indices existentes*/
         aux = vet_indice[ j ];
@@ -180,8 +179,29 @@ char* caixa_correcao(char *campo)
 
 /*FIM DAS FUNÇÕES RETIRADAS DE ENTRADA.H*/
 
+servidor_t* modify_servidor( servidor_t* servidor_ptr, int indice, size_t* tamanho )
+{
+    if(indice == -1) return servidor_ptr; // não executa nenhuma mudança
 
-int check_type_serv(char opcao,char type_serv[])
+    strcpy( servidor_ptr[indice].nome  ,ler_campo("Digite o Novo nome do Servidor \n:",  servidor_ptr[indice].nome   )); // obrigatorio
+    strcpy( servidor_ptr[indice].siape ,ler_campo("Digite o Novo siape do Servidor\n:",  servidor_ptr[indice].siape  )); // obrigadorio e não pode repetir
+    strcpy( servidor_ptr[indice].cpf   ,ler_campo("Digite o Novo cpf do Servidor  \n:",  servidor_ptr[indice].cpf    )); // obrigatorio e não pode repetir
+                
+    //strcpy(aux,'1');
+
+    //}while( checar_repeticao(novo_servidor.nome,novo_servidro.siape,novo_servidor.cpf, aux) ); checar em branco --> checar repetição --> permitir passagem
+    
+    strcpy( servidor_ptr[indice].nascimento,ler_campo("Digite a Nova data de nascimento do servidor\n:",servidor_ptr[indice].nascimento));
+    strcpy( servidor_ptr[indice].rg        ,ler_campo("Digite o Novo rg do Servidor\n:",                servidor_ptr[indice].rg        ));
+    strcpy( servidor_ptr[indice].salario   ,ler_campo("Digite o Novo salario do servidor\n:",           servidor_ptr[indice].salario   ));
+    strcpy( servidor_ptr[indice].endereco  ,ler_campo("Digite o Novo endereco do Servidor\n:",          servidor_ptr[indice].endereco  ));
+
+    printf("CADASTRO ATUALIZADO !! \n\n");
+  return servidor_ptr;
+}
+
+
+int check_type_serv(char opcao,char *type_serv)
 {
     if(opcao == '1') return (!strcmp("Tecnico",type_serv)) ;
     else if(opcao == '2') return (!strcmp("Professor",type_serv)) ;

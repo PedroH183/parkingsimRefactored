@@ -3,6 +3,7 @@
 
 servidor_t criar_servidor();
 servidor_t* inserir_servidor(servidor_t* servidor_ptr, servidor_t servidor, size_t* tamanho);
+servidor_t* modify_servidor( servidor_t* servidor_ptr, int indice, size_t* tamanho );
 void list_serv(char choice, servidor_t* servidor , int ordenados_indices[], size_t* quantia_regis);
 
 const char *rece_type_serv(const char *opcao);

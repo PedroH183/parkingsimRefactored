@@ -42,17 +42,23 @@ int main()
         switch(input)
         {
             case sair_do_programa:
+
                 printf("\nSalvando dados e terminando programa...\n\n");
                 escrever_arquivo(servidor, tamanho);
-
                 return 0;
+
             case insert_servidor:
         
                 servidor = inserir_servidor(servidor, criar_servidor(), &tamanho);
                 
                 break;
             case alterar_servidor:
-                //
+                
+                printf("\nDigite o codigo do servidor\n>"); // deletar por indice ?? 
+                scanf("%d",&codigo);
+                fflush(stdin);
+                servidor = modify_servidor( servidor, buscar_codigo(codigo,&tamanho,servidor), &tamanho );
+                
                 break;
             case remover_servidor:
 
@@ -69,17 +75,12 @@ int main()
                 scanf("%c",&input);
                 fflush(stdin);
                 
-                if( input == print_tecnicos || input == print_prof || input == print_all )
+                if( input == print_tecnicos || input == print_prof || input == print_all || input == print_especif) // para print específico posso colocar aqui ?? 
                 {
                     organizando_nomes(&tamanho, servidor, input);
 
-                }else if( input == print_especif )
-                {
-                    //print_serv_cod();
-                    /**
-                     * procurar um indice/codigo especifico e printar ele.
-                     */
-                }else if( input == return_menu )
+                }
+                else if( input == return_menu )
                 {
                     printf("\n\n");
                     break;
