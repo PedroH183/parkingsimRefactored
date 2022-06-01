@@ -68,15 +68,15 @@ int main()
                 break;
             case listar_servidor:
 
-                opcao_list_serv();
+                opcao_list_serv(); // menu que vai listar as opções
                 
                 scanf("%c",&input);
                 fflush(stdin);
                 
                 if( input == print_tecnicos || input == print_prof || input == print_all )
                 {
-                    list_serv(servidor, tamanho); // esse list serv tem que já chamar uma função para ordenar 
-                    //copying_nomes(input);
+                    organizando_nomes(&tamanho, servidor, input);
+
                 }else if( input == print_especif )
                 {
                     //print_serv_cod();

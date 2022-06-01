@@ -38,26 +38,28 @@ servidor_t criar_servidor()
     return novo_servidor;
 }
 
-void list_serv( servidor_t* servidor , size_t quantia_registr)// deve receber como parametro um vetor ordenado
+void list_serv(char choice, servidor_t* servidor , int ordenados_indices[], size_t* quantia_regis)// deve receber como parametro um vetor ordenado
 {
   printf("\n############Listando#########\n");
 
-  for(int i = 0 ; i < quantia_registr ; ++i) // quantia_registr == tamanho == quantia de registros salvos.
+  for(int i = 0 ; i < (*quantia_regis) ; ++i) // quantia_registr == tamanho == quantia de registros salvos.
   {
+    if( check_type_serv(choice, servidor[ordenados_indices[i]].tipo) )
+    {
     printf("Indice: %d\nCodigo: %d\nNome: %s\nSiape: %s\nCpf: %s\nNascimento: %s\nEndereco: %s\nRg: %s\nSalario: %s\nTipo: %s\n\n",
-            i,
-            servidor[i].codigo,
-            servidor[i].nome,
-            servidor[i].siape,
-            servidor[i].cpf,
-            servidor[i].nascimento,
-            servidor[i].endereco,
-            servidor[i].rg,
-            servidor[i].salario,
-            servidor[i].tipo);
+            ordenados_indices[i], // indice real a ser printado
+            servidor[ordenados_indices[i]].codigo, // será que precisa mesmo de codigo ? 
+            servidor[ordenados_indices[i]].nome,
+            servidor[ordenados_indices[i]].siape,
+            servidor[ordenados_indices[i]].cpf,
+            servidor[ordenados_indices[i]].nascimento,
+            servidor[ordenados_indices[i]].endereco,
+            servidor[ordenados_indices[i]].rg,
+            servidor[ordenados_indices[i]].salario,
+            servidor[ordenados_indices[i]].tipo);
+    }
   }
-  
-  printf("\n\n########FIM DA LISTAGEM######\n");
+  printf("\n########FIM DA LISTAGEM######\n");
 
   return;
 }
@@ -70,6 +72,66 @@ const char *rece_type_serv(const char *opcao)
       printf("\nDigite uma opcao valida !!!\n");
       return "ERRO";
     }
+}
+
+void organizando_nomes(size_t* quant_regist, servidor_t* ptr_regis, char opcao)
+{
+  char nomes[(*quant_regist)][100],aux[100];
+
+  for(int i = 0 ; i < (*quant_regist) ; ++i)
+  {
+    strcpy(nomes[i], ptr_regis[i].nome);
+  }
+  
+  for( int i = 0 ; i < (*quant_regist) ; ++i){
+    for( int j = 0 ; j < ((*quant_regist) - i - 1) ; ++j)
+    {
+      if( (tolower(nomes[j][0]) > tolower(nomes[j+1][0]) ) || ( (tolower(nomes[j][0]) == tolower(nomes[j+1][0])) && (tolower(nomes[j][1]) > tolower(nomes[j+1][1])) ) )
+      {
+        strcpy(aux,nomes[j]);
+        strcpy(nomes[j],nomes[j+1]);
+        strcpy(nomes[j+1],aux);
+      }
+    }
+  }
+
+  return ordena_servidor(opcao,nomes,quant_regist,ptr_regis);
+}
+
+void ordena_servidor(char choice,char copy_nome[][TAM_STR],size_t* quantia_regis,servidor_t* ptr_regis)
+{
+  int quantia = 0,vet_indices[(*quantia_regis)];
+
+  for(int i = 0 ; i < (*quantia_regis) ; ++i)
+  {
+    for(int j = 0 ; j < ((*quantia_regis) - i) ; ++j)
+    {
+      if( !strcmp(ptr_regis[j].nome, copy_nome[i]) ) // tirei o check typeserv daqui 
+      {
+        vet_indices[i] = j;
+        quantia++;
+      }
+    }
+  }
+
+    verificador_quantia(choice,quantia,vet_indices,ptr_regis,quantia_regis);
+    return ;
+}
+
+void verificador_quantia(char choice,int quantia, int *ordenador,servidor_t* ptr_regis,size_t *quantia_registros)
+{
+    if (!(quantia)) printf("\nSem registros!!\nCadastre um novo Servidor!!\n");
+    else list_serv(choice, ptr_regis, ordenador, quantia_registros); // não preciso passar quantia, posso passar choice para list serv, ficaria mais controlado
+}
+
+void opcao_list_serv()
+{
+    printf("Digite a forma como deseja printar os servidores\n\n");
+    printf("1. Printar apenas os Tecnicos \n");
+    printf("2. Printar apenas os professores \n");
+    printf("3. Printar Todos \n");
+    printf("4. Printar um servidor pelo cod dele.\n");
+    printf("5. Para retornar ao menu\n");
 }
 
 /*FUNÇÕES DE ENTRADA.H DANDO IMPLICT DECLARATION*/
@@ -93,7 +155,7 @@ char ler_menu(char input)
 char* ler_campo( char *texto, char *campo )
 {
   printf( texto );
-  fgets( campo, TAM_STR, stdin ); // aplicar o sizeof(campo) não funciona, pq ? ele puxa o tamanho do ponteiro ?
+  fgets( campo, TAM_STR, stdin );
   campo[ strcspn(campo,"\n") ] = '\0';
   fflush( stdin );
 
@@ -120,3 +182,11 @@ char* caixa_correcao(char *campo)
 }
 
 /*FIM DAS FUNÇÕES RETIRADAS DE ENTRADA.H*/
+
+
+int check_type_serv(char opcao,char type_serv[])
+{
+    if(opcao == '1') return (!strcmp("Tecnico",type_serv)) ;
+    else if(opcao == '2') return (!strcmp("Professor",type_serv)) ;
+    else return 1;
+}

@@ -29,15 +29,4 @@ enum menu_listar_serv
     return_menu = '5',
 };
 
-void opcao_list_serv()
-{
-    printf("Digite a forma como deseja printar os servidores\n\n");
-    printf("1. Printar apenas os Tecnicos \n");
-    printf("2. Printar apenas os professores \n");
-    printf("3. Printar Todos \n");
-    printf("4. Printar um servidor pelo cod dele.\n");
-    printf("5. Para retornar ao menu\n");
-}
-
-
 #endif
