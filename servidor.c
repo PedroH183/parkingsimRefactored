@@ -38,7 +38,7 @@ servidor_t criar_servidor()
     return novo_servidor;
 }
 
-void list_serv(char choice, servidor_t* servidor , int ordenados_indices[], size_t* quantia_regis)// deve receber como parametro um vetor ordenado
+void list_serv(char choice, servidor_t* servidor , int *ordenados_indices, size_t* quantia_regis)// deve receber como parametro um vetor ordenado
 {
   int ptrints_quantia = 0;
   printf("\n############Listando#########\n");
@@ -186,4 +186,14 @@ int check_type_serv(char opcao,char type_serv[])
     if(opcao == '1') return (!strcmp("Tecnico",type_serv)) ;
     else if(opcao == '2') return (!strcmp("Professor",type_serv)) ;
     else return 1;
+}
+
+int buscar_codigo(int ipt_codigo, size_t* qtd_regis, servidor_t* ptr_str) // função para apagar por codigo !!
+{
+  for(int i =0 ; i < (*qtd_regis); ++i)
+  {
+    if(ptr_str[i].codigo == ipt_codigo) return i;
+  }
+  printf("\nCODIGO NAO REGISTRADO !!\n");
+  return -1; // não encontrou correspondência
 }

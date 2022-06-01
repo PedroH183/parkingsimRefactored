@@ -26,7 +26,7 @@ servidor_t* deletar_servidor( servidor_t* servidor_ptr, int indice, size_t* tama
         free(servidor_ptr);
         servidor_ptr = malloc((*tamanho) * sizeof(servidor_t)); 
     }
-    else if (!(*tamanho)) // se não contiver nada não apaga nada, pq senão trava o programa !! 
+    else if (!(*tamanho) || indice == -1)
     {
         return servidor_ptr;
     }

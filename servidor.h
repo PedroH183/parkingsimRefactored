@@ -17,4 +17,6 @@ void opcao_list_serv();
 void organizando_nomes(size_t* quant_regist, servidor_t* ptr_regis, char opcao);
 int check_type_serv(char opcao,char type_serv[]);
 
+int buscar_codigo(int ipt_codigo, size_t* qtd_regis, servidor_t* ptr_str);
+
 #endif

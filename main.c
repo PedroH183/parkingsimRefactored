@@ -22,7 +22,7 @@ int main()
 
     fflush(stdin);
     char input = '~';
-    int indice;
+    int codigo;
 
     do
     {
@@ -56,14 +56,10 @@ int main()
                 break;
             case remover_servidor:
 
-                /**
-                 * Inserir a checagem de existencia de codigo para não apagar o vazio.
-                 */
-
-                printf("\nDigite o indice do servidor\n>"); // deletar por indice ?? 
-                scanf("%d",&indice);
+                printf("\nDigite o codigo do servidor\n>"); // deletar por indice ?? 
+                scanf("%d",&codigo);
                 fflush(stdin);
-                servidor = deletar_servidor(servidor,indice, &tamanho);
+                servidor = deletar_servidor(servidor,buscar_codigo(codigo,&tamanho,servidor), &tamanho);
             
                 break;
             case listar_servidor:
