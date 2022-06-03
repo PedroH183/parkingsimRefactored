@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "estruturas.h"
-#include "entradas.h"
-#include "utilitarios.h"
-#include "arquivos.h"
-#include "servidor.h"
-
-#include "gerenciamento.h"
+#include "./DotH\\estruturas.h"
+#include "./DotH\\entradas.h"
+#include "./DotH\\utilitarios.h"
+#include "./DotH\\arquivos.h"
+#include "./DotH\\servidor.h"
+#include "./Doth\\gerenciamento.h"
 
 
 int main()

@@ -4,10 +4,8 @@
 #include <ctype.h>
 #include <time.h> 
 
-#include "estruturas.h"
-#include "servidor.h"
-
-
+#include "./DotH\\estruturas.h"
+#include "./DotH\\servidor.h"
 
 servidor_t criar_servidor(servidor_t* ptr_regis,int *tamanho)
 { 
