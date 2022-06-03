@@ -1,11 +1,10 @@
 #ifndef ENTRADAS_H
 #define ENTRADAS_H
+#define TAM_STR 100
 
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-
-#define TAM_STR 100
 
 enum menu
 {
@@ -26,7 +25,6 @@ enum menu_listar_serv
     print_prof = '2',
     print_all = '3',
     print_especif ='4',
-    return_menu = '5',
 };
 
 #endif

@@ -4,9 +4,10 @@
 
 #include "estruturas.h"
 #include "entradas.h"
-#include "arquivos.h"
 #include "utilitarios.h"
+#include "arquivos.h"
 #include "servidor.h"
+
 #include "gerenciamento.h"
 
 
@@ -49,7 +50,9 @@ int main()
 
             case insert_servidor:
         
-                servidor = inserir_servidor(servidor, criar_servidor(), &tamanho);
+                servidor = inserir_servidor(servidor, criar_servidor(servidor,&tamanho), &tamanho);
+                system("pause");
+                system("cls");
                 
                 break;
             case alterar_servidor:
@@ -58,6 +61,8 @@ int main()
                 scanf("%d",&codigo);
                 fflush(stdin);
                 servidor = modify_servidor( servidor, buscar_codigo(codigo,&tamanho,servidor), &tamanho );
+                system("pause");
+                system("cls");
                 
                 break;
             case remover_servidor:
@@ -70,24 +75,34 @@ int main()
                 break;
             case listar_servidor:
 
-                opcao_list_serv(); // menu que vai listar as opções
-                
+                printf("Digite a forma como deseja printar os servidores\n\n");
+                printf("1. Printar apenas os Tecnicos \n");
+                printf("2. Printar apenas os professores \n");
+                printf("3. Printar Todos \n");
+                printf("4. Printar um servidor pelo cod dele.\n");
+                printf("5. Para retornar ao menu\n");
+                    
                 scanf("%c",&input);
                 fflush(stdin);
                 
-                if( input == print_tecnicos || input == print_prof || input == print_all || input == print_especif) // para print específico posso colocar aqui ?? 
+                if( input == print_tecnicos || input == print_prof || input == print_all) // para print específico posso colocar aqui ?? 
                 {
                     organizando_nomes(&tamanho, servidor, input);
 
                 }
-                else if( input == return_menu )
+                else if(input == print_especif)
                 {
-                    printf("\n\n");
-                    break;
-                }else{
-                    printf("\nEssa opção não existe !\n");
-                    break;
+                    printf("\nDigite o codigo do servidor\n>"); // deletar por indice ?? 
+                    scanf("%d",&codigo);
+                    fflush(stdin);
+
+                    int index = buscar_codigo(codigo,&tamanho,servidor);
+                    if(index == -1) break;
+                    int vet_espcf[] = {index};
+                    int auxiliar = 1;
+                    list_serv(input,servidor,vet_espcf, &auxiliar );
                 }
+        
                 break;
             case inserir_veiculo:
                 //
@@ -107,5 +122,6 @@ int main()
 
     } while (input != '0');
 
+    free(servidor); // é apenas um ponteiro
     return 0;
 }

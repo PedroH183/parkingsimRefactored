@@ -9,11 +9,12 @@ void list_serv(char choice, servidor_t* servidor , int ordenados_indices[], size
 const char *rece_type_serv(const char *opcao);
 servidor_t* deletar_servidor(servidor_t* servidor_ptr, int indice, size_t* tamanho);
 
-int em_branco(char *string);
+
+char* ler_campo( char *texto, char *campo );
+char* caixa_correcao(char *campo);
 char ler_menu(char input);
-char *ler_campo( char *texto, char *campo );
-char *caixa_correcao( char *campo );
-void opcao_list_serv();
+int em_branco(char *string);
+int inpt_branco_ou_rept(char *nome, char *siape,char *cpf, servidor_t* ptr_regis, size_t* tamanho,int indice);
 
 void organizando_nomes(size_t* quant_regist, servidor_t* ptr_regis, char opcao);
 int check_type_serv(char opcao,char type_serv[]);

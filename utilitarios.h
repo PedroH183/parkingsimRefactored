@@ -19,20 +19,6 @@
 //    return (veic1->codigo == veic2->codigo ? 0 : 1);
 //}
 
-//void * encontrar_elemento(const void *valor, void * base, size_t *nmembros, size_t tamanho, int(*compar)(const void *v1, const void*v2))
-//{
-//    const void *resultado = base;
-//    size_t cnt = 0;
-//
-//    while(cnt < *nmembros && (*compar)(valor, resultado) != 0)
-//    {
-//        resultado += tamanho;
-//        ++cnt;
-//    }
-//
-//    return cnt < *nmembros ? (void *) resultado : NULL;
-//}
-
 void * encontrar_elemento(const void *valor, void * base, size_t *nmembros, size_t tamanho, int(*compar)(const void *v1, const void*v2))
 {
     const void *resultado = base;
