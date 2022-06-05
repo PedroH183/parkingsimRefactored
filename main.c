@@ -3,10 +3,11 @@
 #include <string.h>
 
 #include "./DotH//estruturas.h"
-#include "./DotH//entradas.h"
 #include "./DotH//utilitarios.h"
+#include "./DotH//entradas.h"
 #include "./DotH//arquivos.h"
 #include "./DotH//servidor.h"
+#include "./DotH//utilitarios.h"
 #include "./Doth//gerenciamento.h"
 
 
@@ -100,7 +101,7 @@ int main()
 
                     int vet_espcf[] = {codigo};
                     int quantia_de_prints = 1;
-                    
+
                     list_serv(input,servidor,vet_espcf, &quantia_de_prints );
                 }
         

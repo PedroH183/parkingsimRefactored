@@ -58,12 +58,14 @@ void list_serv(char choice, servidor_t* servidor , int *ordenados_indices, size_
     ptrints_quantia++;
     }
   }
-  printf("\n########FIM DA LISTAGEM######\n");
+  printf("\n########FIM DA LISTAGEM######\n\n");
 
   if(!ptrints_quantia)
   {
     printf("\nSEM REGISTROS PARA ESSE TIPO DE SERVIDOR\nCadastre um novo servidor\n\n");
   }
+  system("pause");
+  system("cls");
 
   return;
 }
@@ -140,37 +142,6 @@ int check_type_serv(char opcao,char *type_serv)
     else return 1;
 }
 
-int buscar_codigo(int ipt_codigo, size_t* qtd_regis, servidor_t* ptr_str) // função para apagar por codigo !!
-{
-  for(int i =0 ; i < (*qtd_regis); ++i)
-  {
-    if(ptr_str[i].codigo == ipt_codigo) return i;
-  }
-  printf("\nCODIGO NAO REGISTRADO !!\n");
-  return -1; // não encontrou correspondência
-}
-
-int codigo_gerador(servidor_t *ptr_registros,int *quantia_registros)
-{
-  srand( (unsigned) time(NULL)); // random seed 
-  int controle_loop;
-  int codigo;
-
-  do{
-  controle_loop = 1;
-  codigo = (int)rand();
-
-  for(int i = 0; i < (*quantia_registros); ++i)
-  {
-    if(ptr_registros[i].codigo != codigo) continue;
-    controle_loop = 0; // so chega aqui se em algum for igual 
-  }
-
-  }while( controle_loop != 1);
-
-  return codigo;
-}
-
 int inpt_branco_ou_rept(char *nome, char *siape,char *cpf, servidor_t* ptr_regis, size_t* tamanho, int indice)
 {
     int input1,input2,input3,teste;
@@ -198,51 +169,4 @@ int inpt_branco_ou_rept(char *nome, char *siape,char *cpf, servidor_t* ptr_regis
         }
     }
   return 0; // se chegou aqui ele passou no teste
-}
-
-int em_branco(char *string)
-{
-    if(!strcmp(string, "")) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
-char ler_menu(char input)
-{
-  scanf("%c", &input);
-  fflush(stdin);
-  return input;
-}
-
-char* ler_campo( char *texto, char *campo )
-{
-  printf( texto );
-  fgets( campo, TAM_STR, stdin );
-  campo[ strcspn(campo,"\n") ] = '\0';
-  fflush( stdin );
-
-  return caixa_correcao(campo);
-}
-
-char* caixa_correcao(char *campo)
-{
-  for(int i = 0 ; i < TAM_STR; ++i)
-  {
-    campo[0] = toupper(campo[0]);
-
-    if(campo[i] == ' '){
-
-      campo[i+1] = toupper(campo[i+1]);
-    }
-    if(campo[i-1] == ' '){
-
-        continue;
-    }else{
-      campo[i] = tolower(campo[i]);
-      }
-    } 
-    
-    return campo;
 }

@@ -1,7 +1,6 @@
 #ifndef ESTRUTURAS_H
 #define ESTRUTURAS_H
-
-#include "entradas.h"
+#define TAM_STR 100
 
 typedef struct Veiculo
 {
