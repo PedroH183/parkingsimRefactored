@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "./DotH\\estruturas.h"
-#include "./DotH\\entradas.h"
-#include "./DotH\\utilitarios.h"
-#include "./DotH\\arquivos.h"
-#include "./DotH\\servidor.h"
-#include "./Doth\\gerenciamento.h"
+#include "./DotH//estruturas.h"
+#include "./DotH//entradas.h"
+#include "./DotH//utilitarios.h"
+#include "./DotH//arquivos.h"
+#include "./DotH//servidor.h"
+#include "./Doth//gerenciamento.h"
 
 
 int main()
@@ -91,15 +91,17 @@ int main()
                 }
                 else if(input == print_especif)
                 {
-                    printf("\nDigite o codigo do servidor\n>"); // deletar por indice ?? 
+                    printf("\nDigite o codigo do servidor\n>");
                     scanf("%d",&codigo);
                     fflush(stdin);
 
-                    int index = buscar_codigo(codigo,&tamanho,servidor);
-                    if(index == -1) break;
-                    int vet_espcf[] = {index};
-                    int auxiliar = 1;
-                    list_serv(input,servidor,vet_espcf, &auxiliar );
+                    codigo = buscar_codigo(codigo,&tamanho,servidor);
+                    if(codigo == -1) break;
+
+                    int vet_espcf[] = {codigo};
+                    int quantia_de_prints = 1;
+                    
+                    list_serv(input,servidor,vet_espcf, &quantia_de_prints );
                 }
         
                 break;

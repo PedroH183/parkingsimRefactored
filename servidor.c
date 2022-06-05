@@ -4,14 +4,14 @@
 #include <ctype.h>
 #include <time.h> 
 
-#include "./DotH\\estruturas.h"
-#include "./DotH\\servidor.h"
+#include "./DotH//estruturas.h"
+#include "./DotH//servidor.h"
 
 servidor_t criar_servidor(servidor_t* ptr_regis,int *tamanho)
 { 
     servidor_t novo_servidor;
+    int comparar_com_todos = -1;
     char aux[TAM_STR];
-    srand( (unsigned) time(NULL)); // random seed 
      
     do{
 
@@ -19,16 +19,16 @@ servidor_t criar_servidor(servidor_t* ptr_regis,int *tamanho)
     strcpy( novo_servidor.siape ,ler_campo("Digite o siape do Servidor\n>",  novo_servidor.siape  )); // obrigadorio e não pode repetir
     strcpy( novo_servidor.cpf   ,ler_campo("Digite o cpf do Servidor  \n>",  novo_servidor.cpf    )); // obrigatorio e não pode repetir
 
-    }while( inpt_branco_ou_rept( novo_servidor.nome, novo_servidor.siape, novo_servidor.cpf, ptr_regis, tamanho, -1) );
+    }while( inpt_branco_ou_rept( novo_servidor.nome, novo_servidor.siape, novo_servidor.cpf, ptr_regis, tamanho, comparar_com_todos) );
 
     strcpy( novo_servidor.nascimento,ler_campo("Digite a data de nascimento do servidor\n>",novo_servidor.nascimento));
     strcpy( novo_servidor.rg        ,ler_campo("Digite o rg do Servidor\n>",                novo_servidor.rg        ));
     strcpy( novo_servidor.salario   ,ler_campo("Digite o salario do servidor\n>",           novo_servidor.salario   ));
     strcpy( novo_servidor.endereco  ,ler_campo("Digite o endereco do Servidor\n>",          novo_servidor.endereco  ));
-    novo_servidor.codigo = rand()%1000; 
+    novo_servidor.codigo =  codigo_gerador(ptr_regis,tamanho);
 
     do{
-        strcpy(      aux           ,ler_campo("Digite o tipo de Servidor\n1-Professor  2-Tecnico\n::",   aux));
+        strcpy(      aux           ,ler_campo("Digite o tipo de Servidor\n1-Professor  2-Tecnico\n>>",   aux));
         strcpy( novo_servidor.tipo ,rece_type_serv(aux) );
 
       }while( strcmp( (aux) ,"1") && strcmp( (aux) ,"2") );
@@ -150,6 +150,26 @@ int buscar_codigo(int ipt_codigo, size_t* qtd_regis, servidor_t* ptr_str) // fun
   return -1; // não encontrou correspondência
 }
 
+int codigo_gerador(servidor_t *ptr_registros,int *quantia_registros)
+{
+  srand( (unsigned) time(NULL)); // random seed 
+  int controle_loop;
+  int codigo;
+
+  do{
+  controle_loop = 1;
+  codigo = (int)rand();
+
+  for(int i = 0; i < (*quantia_registros); ++i)
+  {
+    if(ptr_registros[i].codigo != codigo) continue;
+    controle_loop = 0; // so chega aqui se em algum for igual 
+  }
+
+  }while( controle_loop != 1);
+
+  return codigo;
+}
 
 int inpt_branco_ou_rept(char *nome, char *siape,char *cpf, servidor_t* ptr_regis, size_t* tamanho, int indice)
 {
