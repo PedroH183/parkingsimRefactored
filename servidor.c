@@ -7,7 +7,7 @@
 #include "./DotH//estruturas.h"
 #include "./DotH//servidor.h"
 
-servidor_t criar_servidor(servidor_t* ptr_regis,int *tamanho)
+servidor_t criar_servidor(servidor_t* ptr_regis, size_t *tamanho)
 { 
     servidor_t novo_servidor;
     int comparar_com_todos = -1;
@@ -144,13 +144,9 @@ int check_type_serv(char opcao,char *type_serv)
 
 int inpt_branco_ou_rept(char *nome, char *siape,char *cpf, servidor_t* ptr_regis, size_t* tamanho, int indice)
 {
-    int input1,input2,input3,teste;
+    int teste;
 
-    input1 = strcmp(siape,"\0");
-    input2 = strcmp(cpf,"\0"); 
-    input3 = strcmp(nome,"\0");  // pode repetir
-
-    if( !(input1 && input2 && input3) ) 
+    if( !( strcmp(siape,"\0") && strcmp(cpf,"\0") && strcmp(nome,"\0")) ) 
     {
         printf("\nDigite Valores validos para entrada\nCAMPOS: SIAPE, NOME E CPF SAO OBRIGATORIOS!!\n\n");
         return 1;

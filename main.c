@@ -100,7 +100,7 @@ int main()
                     if(codigo == -1) break;
 
                     int vet_espcf[] = {codigo};
-                    int quantia_de_prints = 1;
+                    size_t quantia_de_prints = 1;
 
                     list_serv(input,servidor,vet_espcf, &quantia_de_prints );
                 }
