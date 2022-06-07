@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "estruturas.h"
+#include "servidor.h"
 
 char* caixa_correcao(char *campo);
 
@@ -40,7 +41,7 @@ int buscar_codigo(int ipt_codigo, size_t* qtd_regis, servidor_t* ptr_str) // fun
   return -1; // não encontrou correspondência
 }
 
-int codigo_gerador(servidor_t *ptr_registros,int *quantia_registros)
+int codigo_gerador(servidor_t *ptr_registros,size_t *quantia_registros)
 {
   srand( (unsigned) time(NULL)); // random seed 
   int controle_loop;
