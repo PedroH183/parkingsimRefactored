@@ -20,6 +20,6 @@ void organizando_nomes(size_t* quant_regist, servidor_t* ptr_regis, char opcao);
 int check_type_serv(char opcao,char *type_serv);
 
 int buscar_codigo(int ipt_codigo, size_t* qtd_regis, servidor_t* ptr_str);
-int codigo_gerador(servidor_t *ptr_registros,int *quantia_registros);
+int codigo_gerador(servidor_t *ptr_registros,size_t *quantia_registros);
 
 #endif
