@@ -1,6 +1,8 @@
 #ifndef ESTRUTURAS_H
 #define ESTRUTURAS_H
+
 #define TAM_STR 100
+#define MAX_V 10
 
 typedef struct Veiculo
 {
@@ -23,7 +25,7 @@ typedef struct Servidor
     char rg[TAM_STR];
     char salario[TAM_STR];
     char tipo[TAM_STR];
-    veiculo_t veiculo[10];
+    veiculo_t veiculo[MAX_V];
 } servidor_t;
 
 #endif

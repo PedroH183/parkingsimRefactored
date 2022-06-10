@@ -32,6 +32,12 @@ servidor_t criar_servidor(servidor_t* ptr_regis, size_t *tamanho)
         strcpy( novo_servidor.tipo ,rece_type_serv(aux) );
 
       }while( strcmp( (aux) ,"1") && strcmp( (aux) ,"2") );
+
+      //inicializador de veiculos
+      for(int i = 0; i < MAX_V; i++)
+      {
+        novo_servidor.veiculo[i].ocupado = 0;
+      }
     
     return novo_servidor;
 }

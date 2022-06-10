@@ -7,9 +7,15 @@
 #include "./DotH//entradas.h"
 #include "./DotH//arquivos.h"
 #include "./DotH//servidor.h"
+#include "./DotH//veiculo.h"
 #include "./DotH//utilitarios.h"
 #include "./Doth//gerenciamento.h"
 
+/*
+    Todo:
+        - Adicionar cls pro mac
+        - Verificar se path funciona pro mac
+*/
 
 int main()
 {
@@ -24,6 +30,11 @@ int main()
     fflush(stdin);
     char input = '~';
     int codigo;
+
+    /*Buffers dos inputs de veiculo*/
+    int int_buff;
+    char char_buff[TAM_STR];
+    int indice_servidor, indice_veiculo;
 
     do
     {
@@ -46,6 +57,7 @@ int main()
 
                 printf("\nSalvando dados e terminando programa...\n\n");
                 escrever_arquivo(servidor, tamanho);
+                free(servidor);
                 return 0;
 
             case insert_servidor:
@@ -107,16 +119,208 @@ int main()
         
                 break;
             case inserir_veiculo:
-                //
+
+                printf("Digite o codigo do proprietario: ");
+                scanf("%d", &int_buff);
+                fflush(stdin);
+
+                if(checar_prop_existe(servidor, tamanho, int_buff) >= 0)
+                {
+                    indice_servidor = checar_prop_existe(servidor, tamanho, int_buff);
+
+                    if(checar_cheio(servidor[indice_servidor].veiculo) >= MAX_V)
+                    {
+                        printf("Limite de veiculos excedido!\n");
+                        break;
+                    }
+                    else
+                    {
+                        indice_veiculo = checar_cheio(servidor[indice_servidor].veiculo);
+
+                        servidor[indice_servidor].veiculo[indice_veiculo].codigo = gerador_codigo(servidor[indice_servidor].veiculo) + indice_servidor;
+
+                        do
+                        {
+                            printf("Digite a descricao do veiculo: ");
+                            ler(char_buff);
+                        } while (checar_desc_existe(servidor, tamanho, char_buff) == 1);
+
+                        strcpy(servidor[indice_servidor].veiculo[indice_veiculo].descricao, char_buff);
+
+                        printf("Digite a marca do veiculo: ");
+                        ler(char_buff);
+                        strcpy(servidor[indice_servidor].veiculo[indice_veiculo].marca, char_buff);
+
+                        printf("Digite o modelo do veiculo: ");
+                        ler(char_buff);
+                        strcpy(servidor[indice_servidor].veiculo[indice_veiculo].modelo, char_buff);
+
+                        printf("Digite a placa do veiculo: ");
+                        ler(char_buff);
+                        strcpy(servidor[indice_servidor].veiculo[indice_veiculo].placa, char_buff);
+
+                        servidor[indice_servidor].veiculo[indice_veiculo].ocupado = 1;
+                    }
+                }
+                else
+                {
+                    printf("Nenhum servidor com esse codigo!\n");
+                    break;
+                }
+
                 break;
             case alterar_veiculo:
-                //
+                printf("Digite o codigo do veiculo: ");
+                scanf("%d", &int_buff);
+                fflush(stdin);
+
+                if(checar_veic_existe(servidor, tamanho, int_buff, &indice_servidor, &indice_veiculo) == 1)
+                {
+                    do
+                    {
+                        printf("Digite a descricao do veiculo: ");
+                        ler(char_buff);
+                    } while (checar_desc_existe(servidor, tamanho, char_buff) == 1);
+
+                    strcpy(servidor[indice_servidor].veiculo[indice_veiculo].descricao, char_buff);
+
+                    printf("Digite a marca do veiculo: ");
+                    ler(char_buff);
+                    strcpy(servidor[indice_servidor].veiculo[indice_veiculo].marca, char_buff);
+
+                    printf("Digite o modelo do veiculo: ");
+                    ler(char_buff);
+                    strcpy(servidor[indice_servidor].veiculo[indice_veiculo].modelo, char_buff);
+
+                    printf("Digite a placa do veiculo: ");
+                    ler(char_buff);
+                    strcpy(servidor[indice_servidor].veiculo[indice_veiculo].placa, char_buff);
+                }
+                else
+                {
+                    printf("Nenhum veiculo com esse codigo!\n");
+                    break;
+                }
+                
                 break;
             case remover_veiculo:
-                //
+                printf("Remover um veiculo de um servidor\n");
+                printf("Remover todos os veiculos de um servidor\n");
+                printf("> ");
+                scanf("%c", &input);
+                fflush(stdin);
+
+                switch(input)
+                {
+                    case '1':
+                        printf("Digite o codigo do veiculo: ");
+                        scanf("%d", &int_buff);
+                        fflush(stdin);
+
+                        if(checar_veic_existe(servidor, tamanho, int_buff, &indice_servidor, &indice_veiculo) == 1)
+                        {
+                            servidor[indice_servidor].veiculo[indice_veiculo].ocupado = 0;
+                            printf("Veiculo deletado!\n");
+                        }
+                        else
+                        {
+                            printf("Nenhum veiculo com esse codigo!\n");
+                            break;
+                        }
+
+                        break;
+                    case '2':
+                        printf("Digite o codigo do proprietario: ");
+                        scanf("%d", &int_buff);
+                        fflush(stdin);
+
+                        if(checar_prop_existe(servidor, tamanho, int_buff) >= 0)
+                        {
+                            indice_servidor = checar_prop_existe(servidor, tamanho, int_buff);
+
+                            for(int i = 0; i < MAX_V; i++)
+                            {
+                                servidor[indice_servidor].veiculo[i].ocupado = 0;
+                            }
+                        }
+                        else
+                        {
+                            printf("Nenhum servidor com esse codigo!\n");
+                            break;
+                        }
+
+                        break;
+                    default:
+                        printf("Escolha invalida\n");
+                        break;
+                }
+
                 break;
             case listar_veiculo:
-                //
+                printf("1. Listar por codigo do veiculo.\n");
+                printf("2. Listar por servidor.\n");
+                printf("3. Listar em ordem alfabetica.\n");
+                printf("> ");
+                scanf("%c", &input);
+                fflush(stdin);
+
+                switch(input)
+                {
+                    case '1':
+                        printf("Digite o codigo do veiculo: ");
+                        scanf("%d", &int_buff);
+                        fflush(stdin);
+
+                        if(checar_veic_existe(servidor, tamanho, int_buff, &indice_servidor, &indice_veiculo) == 1)
+                        {
+                            listar_por_codigo(servidor, indice_servidor, indice_veiculo);
+                        }
+                        else
+                        {
+                            printf("Nenhum veiculo com esse codigo!\n");
+                            break;
+                        }
+
+                        break;
+                    case '2':
+                        printf("Digite o codigo do servidor: ");
+                        scanf("%d", &int_buff);
+                        fflush(stdin);
+
+                        if(checar_prop_existe(servidor, tamanho, int_buff) >= 0)
+                        {
+                            indice_servidor = checar_prop_existe(servidor, tamanho, int_buff);
+
+                            listar_por_servidor(servidor, indice_servidor);
+                        }
+                        else
+                        {
+                            printf("Nenhum servidor com esse codigo!\n");
+                            break;
+                        }
+
+                        break;
+                    case '3':
+                        printf("Digite o codigo do servidor: ");
+                        scanf("%d", &int_buff);
+                        fflush(stdin);
+
+                        if(checar_prop_existe(servidor, tamanho, int_buff) >= 0)
+                        {
+                            indice_servidor = checar_prop_existe(servidor, tamanho, int_buff);
+
+                            listar_ordenado(servidor, indice_servidor);
+                        }
+                        else
+                        {
+                            printf("Nenhum servidor com esse codigo!\n");
+                            break;
+                        }
+                        break;
+                    default:
+                        printf("Escolha invalida\n");
+                        break;
+                }
                 break;
             default:
                 printf("\nEscolha invalida.\n\n");
@@ -124,6 +328,5 @@ int main()
 
     } while (input != '0');
 
-    free(servidor); // é apenas um ponteiro
     return 0;
 }
