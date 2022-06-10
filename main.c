@@ -137,8 +137,7 @@ int main()
                     {
                         indice_veiculo = checar_cheio(servidor[indice_servidor].veiculo);
 
-                        servidor[indice_servidor].veiculo[indice_veiculo].codigo = gerador_codigo(servidor[indice_servidor].veiculo) + indice_servidor;
-
+                        servidor[indice_servidor].veiculo[indice_veiculo].codigo = gerador_codigo(servidor[indice_servidor].veiculo, indice_servidor);
                         do
                         {
                             printf("Digite a descricao do veiculo: ");
@@ -291,6 +290,12 @@ int main()
                         {
                             indice_servidor = checar_prop_existe(servidor, tamanho, int_buff);
 
+                            if(checar_vazio(servidor, indice_servidor) == 0)
+                            {
+                                printf("Servidor nao possui veiculos!\n");
+                                break;
+                            }
+
                             listar_por_servidor(servidor, indice_servidor);
                         }
                         else
@@ -308,6 +313,12 @@ int main()
                         if(checar_prop_existe(servidor, tamanho, int_buff) >= 0)
                         {
                             indice_servidor = checar_prop_existe(servidor, tamanho, int_buff);
+
+                            if(checar_vazio(servidor, indice_servidor) == 0)
+                            {
+                                printf("Servidor nao possui veiculos!\n");
+                                break;
+                            }
 
                             listar_ordenado(servidor, indice_servidor);
                         }
