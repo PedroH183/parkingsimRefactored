@@ -21,6 +21,7 @@ enum menu
     alterar_veiculo = '6',
     remover_veiculo = '7',
     listar_veiculo = '8',
+    salvar_dados = '9',
 };
 
 enum menu_listar_serv

@@ -46,6 +46,7 @@ int main()
         printf("6. Atual. veiculo\n");
         printf("7. Delet. veiculo\n");
         printf("8. Lista. veiculo\n\n");
+        printf("9. Salvar dados\n");
         printf("0. Terminar programa\n\n");
 
         printf("Escolha: ");
@@ -332,6 +333,10 @@ int main()
                         printf("Escolha invalida\n");
                         break;
                 }
+                break;
+            case salvar_dados:
+                escrever_arquivo(servidor, tamanho);
+                printf("Dados salvos!\n\n");
                 break;
             default:
                 printf("\nEscolha invalida.\n\n");
