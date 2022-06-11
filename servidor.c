@@ -31,21 +31,25 @@ servidor_t criar_servidor(servidor_t* ptr_regis, size_t *tamanho)
         strcpy(      aux           ,ler_campo("Digite o tipo de Servidor\n1-Professor  2-Tecnico\n>>",   aux));
         strcpy( novo_servidor.tipo ,rece_type_serv(aux) );
 
-      }while( strcmp( (aux) ,"1") && strcmp( (aux) ,"2") );
+      }while( strcmp( aux ,"1") && strcmp( aux ,"2") );
 
-      //inicializador de veiculos
-      for(int i = 0; i < MAX_V; i++)
-      {
-        novo_servidor.veiculo[i].ocupado = 0;
-      }
+    //inicializador de veiculos
+    for(int i = 0; i < MAX_V; i++)
+    {
+      novo_servidor.veiculo[i].ocupado = 0;
+    }
     
     return novo_servidor;
 }
 
-void list_serv(char choice, servidor_t* servidor , int *ordenados_indices, size_t* quantia_regis)// deve receber como parametro um vetor ordenado
+void list_serv(char choice, servidor_t* servidor , int *ordenados_indices, size_t* quantia_regis, int quantia_prints)
 {
-  int ptrints_quantia = 0;
-  printf("\n############Listando#########\n");
+  if(!quantia_prints)
+  {
+    printf("\nNao existe esse tipo de servidor no arquivo !!\n\n");
+    return;
+  }
+  printf("\n#####Listando Servidores#######\n");
 
   for(int i = 0 ; i < (*quantia_regis) ; ++i)
   {
@@ -61,17 +65,9 @@ void list_serv(char choice, servidor_t* servidor , int *ordenados_indices, size_
             servidor[ordenados_indices[i]].rg,
             servidor[ordenados_indices[i]].salario,
             servidor[ordenados_indices[i]].tipo);
-    ptrints_quantia++;
     }
   }
   printf("\n########FIM DA LISTAGEM######\n\n");
-
-  if(!ptrints_quantia)
-  {
-    printf("\nSEM REGISTROS PARA ESSE TIPO DE SERVIDOR\nCadastre um novo servidor\n\n");
-  }
-  system("pause");
-  system("cls");
 
   return;
 }
@@ -81,18 +77,14 @@ const char *rece_type_serv(const char *opcao)
   if( !strcmp(opcao,"1") ) return "Professor";
   if( !strcmp(opcao,"2") ) return "Tecnico";
   else {
-      printf("\nDigite uma opcao valida !!!\n");
-      return "ERRO";
+    printf("\n");
+    return "ERRO";
     }
 }
 
 void organizando_nomes(size_t* quant_regist, servidor_t* ptr_regis, char opcao)
 {
-  if(!(*quant_regist))
-  {
-    printf("\nCADASTRE PELO MENOS UM SERVIDOR!\n\n");
-    return;
-  }
+  if(!(*quant_regist)) return;
   int vet_indice[(*quant_regist)], aux;
 
   for(int i = 0; i < (*quant_regist) ; ++i)
@@ -115,60 +107,80 @@ void organizando_nomes(size_t* quant_regist, servidor_t* ptr_regis, char opcao)
     }
   }
 
-  list_serv(opcao, ptr_regis, vet_indice, quant_regist);
+  list_serv(opcao, ptr_regis, vet_indice, quant_regist, quantia_p_printar(quant_regist,opcao,ptr_regis));
 
   return ;
 }
 
 servidor_t* modify_servidor( servidor_t* servidor_ptr, int indice, size_t* tamanho )
 {
-    if(indice == -1) return servidor_ptr; // não executa nenhuma mudança
+  if(indice == -1) return servidor_ptr; // não executa nenhuma mudança
 
-    do{
-    strcpy( servidor_ptr[indice].nome  ,ler_campo("Digite o Novo nome do Servidor \n>",  servidor_ptr[indice].nome   )); // obrigatorio
-    strcpy( servidor_ptr[indice].siape ,ler_campo("Digite o Novo siape do Servidor\n>",  servidor_ptr[indice].siape  )); // obrigadorio e não pode repetir
-    strcpy( servidor_ptr[indice].cpf   ,ler_campo("Digite o Novo cpf do Servidor  \n>",  servidor_ptr[indice].cpf    )); // obrigatorio e não pode repetir
+  do{
+  strcpy( servidor_ptr[indice].nome  ,ler_campo("Digite o Novo nome do Servidor \n>",  servidor_ptr[indice].nome   )); // obrigatorio
+  strcpy( servidor_ptr[indice].siape ,ler_campo("Digite o Novo siape do Servidor\n>",  servidor_ptr[indice].siape  )); // obrigadorio e não pode repetir
+  strcpy( servidor_ptr[indice].cpf   ,ler_campo("Digite o Novo cpf do Servidor  \n>",  servidor_ptr[indice].cpf    )); // obrigatorio e não pode repetir
     
-    }while( inpt_branco_ou_rept(servidor_ptr[indice].nome, servidor_ptr[indice].siape, servidor_ptr[indice].cpf, servidor_ptr, tamanho, indice) );
+  }while( inpt_branco_ou_rept(servidor_ptr[indice].nome, servidor_ptr[indice].siape, servidor_ptr[indice].cpf, servidor_ptr, tamanho, indice) );
 
-    strcpy( servidor_ptr[indice].nascimento,ler_campo("Digite a Nova data de nascimento do servidor\n>",servidor_ptr[indice].nascimento));
-    strcpy( servidor_ptr[indice].rg        ,ler_campo("Digite o Novo rg do Servidor\n>",                servidor_ptr[indice].rg        ));
-    strcpy( servidor_ptr[indice].salario   ,ler_campo("Digite o Novo salario do servidor\n>",           servidor_ptr[indice].salario   ));
-    strcpy( servidor_ptr[indice].endereco  ,ler_campo("Digite o Novo endereco do Servidor\n>",          servidor_ptr[indice].endereco  ));
+  strcpy( servidor_ptr[indice].nascimento,ler_campo("Digite a Nova data de nascimento do servidor\n>",servidor_ptr[indice].nascimento));
+  strcpy( servidor_ptr[indice].rg        ,ler_campo("Digite o Novo rg do Servidor\n>",                servidor_ptr[indice].rg        ));
+  strcpy( servidor_ptr[indice].salario   ,ler_campo("Digite o Novo salario do servidor\n>",           servidor_ptr[indice].salario   ));
+  strcpy( servidor_ptr[indice].endereco  ,ler_campo("Digite o Novo endereco do Servidor\n>",          servidor_ptr[indice].endereco  ));
 
-    printf("CADASTRO ATUALIZADO !! \n\n");
+  printf("CADASTRO ATUALIZADO !! \n\n");
 
   return servidor_ptr;
 }
 
 int check_type_serv(char opcao,char *type_serv)
 {
-    if(opcao == '1') return (!strcmp("Tecnico",type_serv)) ;
-    else if(opcao == '2') return (!strcmp("Professor",type_serv)) ;
+    if(opcao == '1') return !strcmp("Tecnico",type_serv);
+    else if(opcao == '2') return !strcmp("Professor",type_serv);
     else return 1;
 }
 
 int inpt_branco_ou_rept(char *nome, char *siape,char *cpf, servidor_t* ptr_regis, size_t* tamanho, int indice)
 {
-    int teste;
+  if( !( strcmp(siape,"\0") && strcmp(cpf,"\0") && strcmp(nome,"\0")) ) 
+  {
+    printf("\nCAMPOS: SIAPE, NOME E CPF SAO OBRIGATORIOS!!\n\n");
+    return 1;
+  }
 
-    if( !( strcmp(siape,"\0") && strcmp(cpf,"\0") && strcmp(nome,"\0")) ) 
+  for( int i = 0; i < (*tamanho) ; ++i)
+  {
+    if(i != indice)
     {
-        printf("\nDigite Valores validos para entrada\nCAMPOS: SIAPE, NOME E CPF SAO OBRIGATORIOS!!\n\n");
+      if( !( strcmp( ptr_regis[i].siape, siape) && strcmp( ptr_regis[i].cpf, cpf) ) ) 
+      {
+        printf("\nAlguns dos dados estao repetidos !!!\n\n");
         return 1;
-    }
-    /*Avaliar se esta repetido */
-    for( int i = 0; i < (*tamanho) ; ++i)
-    {
-        if(i != indice)
-        {
-            teste = ( strcmp( ptr_regis[i].siape, siape) && strcmp( ptr_regis[i].cpf, cpf) );
-            if( !teste ) 
-            {
-                printf("\nAlguns dos dados estao repetidos !!!\nTente novamente\n\n");
-                return 1;
-            }
         }
     }
-  return 0; // se chegou aqui ele passou no teste
+  }
+  return 0;
+}
+
+int quantia_p_printar(size_t *tamanho, char tipo ,servidor_t *ptr_dados)
+{
+  int quantia = 0;
+  char tipo_servidor[TAM_STR];
+  
+  if( tipo == '1' )
+    strcpy(tipo_servidor,"Tecnico");
+  else if( tipo == '2')
+    strcpy(tipo_servidor, "Professor");
+  else
+    return 1;
+
+  for(int i = 0 ; i < *tamanho ; ++i)
+  {
+    if( !strcmp(ptr_dados[i].tipo,tipo_servidor) )
+    {
+      quantia++;
+    }
+  }
+
+  return quantia;
 }

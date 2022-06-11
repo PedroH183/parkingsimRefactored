@@ -64,18 +64,14 @@ int main()
             case insert_servidor:
         
                 servidor = inserir_servidor(servidor, criar_servidor(servidor,&tamanho), &tamanho);
-                system("pause");
-                system("cls");
-                
                 break;
+
             case alterar_servidor:
                 
                 printf("\nDigite o codigo do servidor\n>"); // deletar por indice ?? 
                 scanf("%d",&codigo);
                 fflush(stdin);
                 servidor = modify_servidor( servidor, buscar_codigo(codigo,&tamanho,servidor), &tamanho );
-                system("pause");
-                system("cls");
                 
                 break;
             case remover_servidor:
@@ -113,9 +109,9 @@ int main()
                     if(codigo == -1) break;
 
                     int vet_espcf[] = {codigo};
-                    size_t quantia_de_prints = 1;
-
-                    list_serv(input,servidor,vet_espcf, &quantia_de_prints );
+                    size_t qtd_de_registros_ind = 1;
+                    
+                    list_serv(input,servidor,vet_espcf, &qtd_de_registros_ind, 1);
                 }
         
                 break;

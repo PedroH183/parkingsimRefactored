@@ -49,27 +49,17 @@ int codigo_gerador(servidor_t *ptr_registros,size_t *quantia_registros)
   int codigo;
 
   do{
-  controle_loop = 1;
-  codigo = (int)rand();
+    controle_loop = 1;
+    codigo = (int)rand()%100;
 
-  for(int i = 0; i < (*quantia_registros); ++i)
-  {
-    if(ptr_registros[i].codigo != codigo) continue;
-    controle_loop = 0; // so chega aqui se em algum for igual 
-  }
-
+    for(int i = 0; i < (*quantia_registros); ++i)
+    {
+      if(ptr_registros[i].codigo != codigo) continue;
+      controle_loop = 0;
+    }
   }while( controle_loop != 1);
 
   return codigo;
-}
-
-int em_branco(char *string)
-{
-    if(!strcmp(string, "")) {
-        return 1;
-    } else {
-        return 0;
-    }
 }
 
 char ler_menu(char input)
