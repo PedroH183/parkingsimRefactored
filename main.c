@@ -71,6 +71,11 @@ int main()
                 printf("\nDigite o codigo do servidor\n>");
                 scanf("%d",&codigo);
                 fflush(stdin);
+
+                if(buscar_codigo(codigo, &tamanho, servidor) == -1)
+                {
+                    break;
+                }
                 
                 int_buff = checar_vazio(servidor[buscar_codigo(codigo,&tamanho,servidor)].veiculo);
 
@@ -325,7 +330,7 @@ int main()
 
                 switch(opt)
                 {
-                    case '1':
+                    case listar_um_veiculo:
                         printf("Digite o codigo do veiculo: ");
                         scanf("%d", &int_buff);
                         fflush(stdin);
@@ -341,7 +346,7 @@ int main()
                         }
 
                         break;
-                    case '2':
+                    case listar_veiculos_servidor:
                         printf("Digite o codigo do servidor: ");
                         scanf("%d", &int_buff);
                         fflush(stdin);
@@ -365,7 +370,7 @@ int main()
                         }
 
                         break;
-                    case '3':
+                    case listar_veiculos_ordenado:
                         printf("Digite o codigo do servidor: ");
                         scanf("%d", &int_buff);
                         fflush(stdin);

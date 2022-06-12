@@ -32,9 +32,16 @@ enum menu_listar_serv
     print_especif ='4',
 };
 
+enum menu_listar_veic
+{
+  listar_um_veiculo = '1',
+  listar_veiculos_servidor = '2',
+  listar_veiculos_ordenado = '3',
+};
+
 int buscar_codigo(int ipt_codigo, size_t* qtd_regis, servidor_t* ptr_str)
 {
-  for(int i =0 ; i < (*qtd_regis); ++i)
+  for(int i = 0 ; i < (*qtd_regis); ++i)
   {
     if(ptr_str[i].codigo == ipt_codigo) return i;
   }
