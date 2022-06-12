@@ -16,7 +16,11 @@ int main()
 
     if(tamanho)
     {
-        ler_dados(servidor, tamanho);
+        if(ler_dados(servidor, tamanho) == -1)
+        {
+            printf("Falha na leitura do arquivo!\n");
+            return 0;
+        }
     }
 
     fflush(stdin);
@@ -49,7 +53,10 @@ int main()
             case sair_do_programa:
 
                 printf("\nSalvando dados e terminando programa...\n\n");
-                escrever_arquivo(servidor, tamanho, "wb+");
+                if(escrever_arquivo(servidor, tamanho, "wb+") == -1)
+                {
+                    printf("Falha na escrita do arquivo!\n");
+                }
                 free(servidor);
                 return 0;
 
@@ -399,7 +406,11 @@ int main()
                 }
                 break;
             case salvar_dados:
-                escrever_arquivo(servidor, tamanho, "rb+");
+                if(escrever_arquivo(servidor, tamanho, "rb+") == -1)
+                {
+                    printf("Falha na escrita do arquivo!\n");
+                    return 0;
+                }
                 printf("Dados salvos!\n\n");
                 break;
             default:
