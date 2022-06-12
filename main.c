@@ -3,12 +3,10 @@
 #include <string.h>
 
 #include "./DotH//estruturas.h"
-#include "./DotH//utilitarios.h"
 #include "./DotH//entradas.h"
 #include "./DotH//arquivos.h"
 #include "./DotH//servidor.h"
 #include "./DotH//veiculo.h"
-#include "./DotH//utilitarios.h"
 #include "./Doth//gerenciamento.h"
 
 int main()
@@ -62,7 +60,7 @@ int main()
 
             case alterar_servidor:
                 
-                printf("\nDigite o codigo do servidor\n>"); // deletar por indice ?? 
+                printf("\nDigite o codigo do servidor\n>");
                 scanf("%d",&codigo);
                 fflush(stdin);
                 servidor = modify_servidor( servidor, buscar_codigo(codigo,&tamanho,servidor), &tamanho );
@@ -70,7 +68,7 @@ int main()
                 break;
             case remover_servidor:
 
-                printf("\nDigite o codigo do servidor\n>"); // deletar por indice ?? 
+                printf("\nDigite o codigo do servidor\n>");
                 scanf("%d",&codigo);
                 fflush(stdin);
                 
@@ -117,7 +115,7 @@ int main()
                     break;
                 }
                 
-                if( input == print_tecnicos || input == print_prof || input == print_all) // para print específico posso colocar aqui ?? 
+                if( input == print_tecnicos || input == print_prof || input == print_all)
                 {
                     organizando_nomes(&tamanho, servidor, input);
 

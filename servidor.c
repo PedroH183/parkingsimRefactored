@@ -15,9 +15,9 @@ servidor_t criar_servidor(servidor_t* ptr_regis, size_t *tamanho)
      
     do{
 
-    strcpy( novo_servidor.nome  ,ler_campo("Digite o nome do Servidor \n>",  novo_servidor.nome   )); // obrigatorio e pode se repetir      
-    strcpy( novo_servidor.siape ,ler_campo("Digite o siape do Servidor\n>",  novo_servidor.siape  )); // obrigadorio e não pode repetir
-    strcpy( novo_servidor.cpf   ,ler_campo("Digite o cpf do Servidor  \n>",  novo_servidor.cpf    )); // obrigatorio e não pode repetir
+    strcpy( novo_servidor.nome  ,ler_campo("Digite o nome do Servidor \n>",  novo_servidor.nome   )); 
+    strcpy( novo_servidor.siape ,ler_campo("Digite o siape do Servidor\n>",  novo_servidor.siape  )); 
+    strcpy( novo_servidor.cpf   ,ler_campo("Digite o cpf do Servidor  \n>",  novo_servidor.cpf    )); 
 
     }while( inpt_branco_ou_rept( novo_servidor.nome, novo_servidor.siape, novo_servidor.cpf, ptr_regis, tamanho, comparar_com_todos) );
 
@@ -33,7 +33,6 @@ servidor_t criar_servidor(servidor_t* ptr_regis, size_t *tamanho)
 
       }while( strcmp( aux ,"1") && strcmp( aux ,"2") );
 
-    //inicializador de veiculos
     for(int i = 0; i < MAX_V; i++)
     {
       novo_servidor.veiculo[i].ocupado = 0;
@@ -49,7 +48,7 @@ void list_serv(char choice, servidor_t* servidor , int *ordenados_indices, size_
     printf("\nNao existe esse tipo de servidor no arquivo !!\n\n");
     return;
   }
-  printf("\n#####Listando Servidores#######\n");
+  printf("\n######LISTANDO SERVIDORES#######\n");
 
   for(int i = 0 ; i < (*quantia_regis) ; ++i)
   {
@@ -116,9 +115,9 @@ servidor_t* modify_servidor( servidor_t* servidor_ptr, int indice, size_t* taman
   if(indice == -1) return servidor_ptr; // não executa nenhuma mudança
 
   do{
-  strcpy( servidor_ptr[indice].nome  ,ler_campo("Digite o Novo nome do Servidor \n>",  servidor_ptr[indice].nome   )); // obrigatorio
-  strcpy( servidor_ptr[indice].siape ,ler_campo("Digite o Novo siape do Servidor\n>",  servidor_ptr[indice].siape  )); // obrigadorio e não pode repetir
-  strcpy( servidor_ptr[indice].cpf   ,ler_campo("Digite o Novo cpf do Servidor  \n>",  servidor_ptr[indice].cpf    )); // obrigatorio e não pode repetir
+  strcpy( servidor_ptr[indice].nome  ,ler_campo("Digite o Novo nome do Servidor \n>",  servidor_ptr[indice].nome   )); 
+  strcpy( servidor_ptr[indice].siape ,ler_campo("Digite o Novo siape do Servidor\n>",  servidor_ptr[indice].siape  )); 
+  strcpy( servidor_ptr[indice].cpf   ,ler_campo("Digite o Novo cpf do Servidor  \n>",  servidor_ptr[indice].cpf    ));
     
   }while( inpt_branco_ou_rept(servidor_ptr[indice].nome, servidor_ptr[indice].siape, servidor_ptr[indice].cpf, servidor_ptr, tamanho, indice) );
 
