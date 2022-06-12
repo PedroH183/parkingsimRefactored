@@ -83,28 +83,31 @@ int checar_cheio(veiculo_t veiculo[])
     return cont;
 }
 
-int checar_cod_existe(veiculo_t veiculo[], int r_cod)
+int checar_cod_existe(servidor_t* servidor, size_t tamanho, int r_cod)
 {
-    for(int i = 0; i < MAX_V; i++)
+    for(int i = 0; i < tamanho; i++)
     {
-        if(veiculo[i].codigo == r_cod)
+        for(int j = 0 ; j < MAX_V; j++)
         {
-            return 1;
+            if(servidor[i].veiculo[j].codigo == r_cod)
+            {
+                return 1;
+            }
         }
     }
 
     return 0;
 }
 
-int gerador_codigo(veiculo_t veiculo[], int indice)
+int gerador_codigo(servidor_t* servidor, size_t tamanho)
 {
     srand(time(NULL));
     int r;
 
     do
     {
-        r = indice*10 + (rand() % MAX_V);
-    } while (checar_cod_existe(veiculo, r) == 1);
+        r = rand() % (MAX_V * tamanho);
+    } while (checar_cod_existe(servidor, tamanho, r) == 1);
 
     return r;
 }
@@ -134,39 +137,43 @@ int checar_desc_existe(servidor_t* servidor, size_t tamanho, char buffer[])
     return 0;
 }
 
-void listar_por_codigo(servidor_t* servidor, int ind_s, int ind_v)
+void listar_por_codigo(servidor_t servidor, int ind_v)
 {
-    printf("Dono: %s\n", servidor[ind_s].nome);
-    printf("Codigo: %d\n", servidor[ind_s].veiculo[ind_v].codigo);
-    printf("Descri: %s\n", servidor[ind_s].veiculo[ind_v].descricao);
-    printf("Marca: %s\n", servidor[ind_s].veiculo[ind_v].marca);
-    printf("Modelo: %s\n", servidor[ind_s].veiculo[ind_v].modelo);
-    printf("Placa: %s\n", servidor[ind_s].veiculo[ind_v].placa);
+    printf("\n############Listando#########\n");
+    printf("Dono: %s\n", servidor.nome);
+    printf("Codigo: %d\n", servidor.veiculo[ind_v].codigo);
+    printf("Descri: %s\n", servidor.veiculo[ind_v].descricao);
+    printf("Marca: %s\n", servidor.veiculo[ind_v].marca);
+    printf("Modelo: %s\n", servidor.veiculo[ind_v].modelo);
+    printf("Placa: %s\n", servidor.veiculo[ind_v].placa);
+    printf("\n########FIM DA LISTAGEM######\n\n");
 }
 
-void listar_por_servidor(servidor_t* servidor, int ind_s)
+void listar_por_servidor(servidor_t servidor)
 {
-    printf("%s\n\n", servidor[ind_s].nome);
+    printf("\n############Listando#########\n");
+    printf("%s\n\n", servidor.nome);
 
     for(int i = 0; i < MAX_V; i++)
     {
-        if(servidor[ind_s].veiculo[i].ocupado == 1)
+        if(servidor.veiculo[i].ocupado == 1)
         {
-            printf("Codigo: %d\n", servidor[ind_s].veiculo[i].codigo);
-            printf("Descri: %s\n", servidor[ind_s].veiculo[i].descricao);
-            printf("Marca: %s\n", servidor[ind_s].veiculo[i].marca);
-            printf("Modelo: %s\n", servidor[ind_s].veiculo[i].modelo);
-            printf("Placa: %s\n\n", servidor[ind_s].veiculo[i].placa);
+            printf("Codigo: %d\n", servidor.veiculo[i].codigo);
+            printf("Descri: %s\n", servidor.veiculo[i].descricao);
+            printf("Marca: %s\n", servidor.veiculo[i].marca);
+            printf("Modelo: %s\n", servidor.veiculo[i].modelo);
+            printf("Placa: %s\n\n", servidor.veiculo[i].placa);
         }
     }
+    printf("\n########FIM DA LISTAGEM######\n\n");
 }
 
-void listar_ordenado(servidor_t* servidor, int ind_s)
+void listar_ordenado(servidor_t servidor)
 {
     veiculo_t veiculos_ordenados[MAX_V];
-    memcpy(veiculos_ordenados, servidor[ind_s].veiculo, sizeof(servidor[ind_s].veiculo));
+    memcpy(veiculos_ordenados, servidor.veiculo, sizeof(servidor.veiculo));
 
-    for(int i = 1; i < MAX_V; i++)
+    for(int i = 0; i < MAX_V - 1; i++)
     {
         for(int j = 0; j < (MAX_V - i - 1); j++)
         {
@@ -179,7 +186,9 @@ void listar_ordenado(servidor_t* servidor, int ind_s)
         }
     }
 
-    printf("%s\n\n", servidor[ind_s].nome);
+    printf("\n############Listando#########\n");
+    printf("%s\n\n", servidor.nome);
+
     for(int i = 0; i < MAX_V; i++)
     {
         if(veiculos_ordenados[i].ocupado == 1)
@@ -191,15 +200,16 @@ void listar_ordenado(servidor_t* servidor, int ind_s)
             printf("Placa: %s\n\n", veiculos_ordenados[i].placa);
         }
     }
+    printf("\n########FIM DA LISTAGEM######\n\n");
 }
 
-int checar_vazio(servidor_t* servidor, int ind_s)
+int checar_vazio(veiculo_t veiculo[])
 {
     int cont = 0;
 
     for(int i = 0; i < MAX_V; i++)
     {
-        if(servidor[ind_s].veiculo[i].ocupado == 1)
+        if(veiculo[i].ocupado == 1)
         {
             cont++;
         }
