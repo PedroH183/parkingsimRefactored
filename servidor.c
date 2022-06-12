@@ -84,7 +84,6 @@ const char *rece_type_serv(const char *opcao)
 
 void organizando_nomes(size_t* quant_regist, servidor_t* ptr_regis, char opcao)
 {
-  if(!(*quant_regist)) return;
   int vet_indice[(*quant_regist)], aux;
 
   for(int i = 0; i < (*quant_regist) ; ++i)

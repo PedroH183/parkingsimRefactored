@@ -6,9 +6,9 @@
 
 #define NOME_ARQUIVO "data.bin"
 
-int escrever_arquivo(servidor_t* servidor_ptr, size_t tamanho)
+int escrever_arquivo(servidor_t* servidor_ptr, size_t tamanho, const char* mode)
 {
-    FILE* fptr = fopen(NOME_ARQUIVO, "wb");
+    FILE* fptr = fopen(NOME_ARQUIVO, mode);
     if(fptr == NULL)
     {
         return -1;
@@ -28,19 +28,6 @@ int ler_dados(servidor_t* servidor_ptr, size_t tamanho)
     }
 
     fread(servidor_ptr, tamanho * sizeof(servidor_t), 1, fptr);
-    fclose(fptr);
-    return 1;
-}
-
-int salvar_arquivo(servidor_t* servidor_ptr, size_t tamanho)
-{
-    FILE* fptr = fopen(NOME_ARQUIVO, "rb+");
-    if(fptr == NULL)
-    {
-        return -1;
-    }
-
-    fwrite(servidor_ptr, tamanho * sizeof(servidor_t), 1, fptr);
     fclose(fptr);
     return 1;
 }

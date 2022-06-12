@@ -50,7 +50,7 @@ int codigo_gerador(servidor_t *ptr_registros,size_t *quantia_registros)
 
   do{
     controle_loop = 1;
-    codigo = (int)rand()%100;
+    codigo = (int)rand()%1000;
 
     for(int i = 0; i < (*quantia_registros); ++i)
     {

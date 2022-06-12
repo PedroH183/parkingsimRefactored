@@ -51,7 +51,7 @@ int main()
             case sair_do_programa:
 
                 printf("\nSalvando dados e terminando programa...\n\n");
-                escrever_arquivo(servidor, tamanho);
+                escrever_arquivo(servidor, tamanho, "wb+");
                 free(servidor);
                 return 0;
 
@@ -73,7 +73,30 @@ int main()
                 printf("\nDigite o codigo do servidor\n>"); // deletar por indice ?? 
                 scanf("%d",&codigo);
                 fflush(stdin);
-                servidor = deletar_servidor(servidor,buscar_codigo(codigo,&tamanho,servidor), &tamanho);
+                
+                int_buff = checar_vazio(servidor[buscar_codigo(codigo,&tamanho,servidor)].veiculo);
+
+                if( int_buff )
+                {
+                    printf("\n####O SERVIDOR TEM VEICULOS CADASTRADOS!!####\n");
+                    listar_por_servidor(servidor[buscar_codigo(codigo,&tamanho,servidor)]);
+
+                    printf("\n##DESEJA REALMENTE DELETAR O SERVIDOR?##\n1-SIM\t2-NAO\n>");
+                    scanf("%c",&opt);
+                    fflush(stdin);
+
+                    switch ( opt )
+                    {
+                    case '1':
+                        servidor = deletar_servidor(servidor,buscar_codigo(codigo,&tamanho,servidor), &tamanho);
+                        break;
+                    default:
+                        printf("\n");
+                        break;
+                    }
+                }else {
+                    servidor = deletar_servidor(servidor,buscar_codigo(codigo,&tamanho,servidor), &tamanho);
+                }
             
                 break;
             case listar_servidor:
@@ -87,6 +110,12 @@ int main()
                     
                 scanf("%c",&input);
                 fflush(stdin);
+
+                if(!tamanho)
+                {
+                    printf("\nDB Vazio! Cadastre alguem !!\n\n");
+                    break;
+                }
                 
                 if( input == print_tecnicos || input == print_prof || input == print_all) // para print específico posso colocar aqui ?? 
                 {
@@ -343,7 +372,7 @@ int main()
                 }
                 break;
             case salvar_dados:
-                salvar_arquivo(servidor, tamanho);
+                escrever_arquivo(servidor, tamanho, "rb+");
                 printf("Dados salvos!\n\n");
                 break;
             default:
