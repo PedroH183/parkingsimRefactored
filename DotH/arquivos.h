@@ -32,20 +32,6 @@ int ler_dados(servidor_t* servidor_ptr, size_t tamanho)
     return 1;
 }
 
-/*
-int salvar_arquivo(servidor_t* servidor_ptr, size_t tamanho)
-{
-    FILE* fptr = fopen(NOME_ARQUIVO, "rb+");
-    if(fptr == NULL)
-    {
-        return -1;
-    }
-
-    fwrite(servidor_ptr, tamanho * sizeof(servidor_t), 1, fptr);
-    fclose(fptr);
-    return 1;
-}
-*/
 size_t buscar_tamanho()
 {
     FILE* fptr = fopen(NOME_ARQUIVO, "ab");

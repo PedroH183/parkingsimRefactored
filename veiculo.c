@@ -7,31 +7,6 @@
 #include "./DotH//estruturas.h"
 #include "./DotH//veiculo.h"
 
-/*
-    Inserir:
-        - Checar armazenamento
-        - Pedir codigo do proprietario e checar se em branco/existe
-        - Atribuir codigo ao veiculo, checar se em branco/existe
-        - Pedir descricao do veiculo, checar se em branco/existe
-        - Pedir marca do veiculo, checar se em branco
-        - Pedir modelo do veiculo, checar se em branco
-        - Pedir placa do veiculo, checar se em branco
-    Alterar:
-        - Pedir codigo do veiculo, checar se em branco/existe
-        - Pedir nova descricao, checar se em branco/existe
-        - Pedir nova marca, checar se em branco
-        - Pedir novo modelo, checar se em branco
-        - Pedir nova placa, cehcar se em branco
-    Deletar:
-        - Pedir codigo do veiculo, checar se em branco/existe
-        - Colocar ocupado como livre.
-    Listar:
-        - 1. Listar por codigo, 2. Listar por servidor, 3. Listar alfab.
-        - Se 1, pedir cod do veiculo, checar se em branco/existe
-        - Se 2, pedir cod do servidor, checar se em branco/existe
-        - Se 3, pedir cod do servidor, checar se em branco/existe, ordenar.
-*/
-
 int checar_prop_existe(servidor_t* servidor, size_t tamanho, int codigo)
 {
     for(int i = 0; i < tamanho; i++)
@@ -128,6 +103,22 @@ int checar_desc_existe(servidor_t* servidor, size_t tamanho, char buffer[])
         for(int j = 0; j < MAX_V; j++)
         {
             if(strcmp(servidor[i].veiculo[j].descricao, buffer) == 0)
+            {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
+int checar_placa_existe(servidor_t* servidor, size_t tamanho, char buffer[])
+{
+    for(int i = 0; i < tamanho; i++)
+    {
+        for(int j = 0; j < MAX_V; j++)
+        {
+            if(strcmp(servidor[i].veiculo[j].placa, buffer) == 0)
             {
                 return 1;
             }

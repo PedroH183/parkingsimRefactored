@@ -167,7 +167,7 @@ int main()
                             }
 
                         } while (checar_desc_existe(servidor, tamanho, char_buff) == 1);
-
+                        
                         strcpy(servidor[indice_servidor].veiculo[indice_veiculo].descricao, char_buff);
 
                         printf("Digite a marca do veiculo: ");
@@ -178,8 +178,18 @@ int main()
                         ler(char_buff);
                         strcpy(servidor[indice_servidor].veiculo[indice_veiculo].modelo, char_buff);
 
-                        printf("Digite a placa do veiculo: ");
-                        ler(char_buff);
+                        do
+                        {
+                            printf("Digite a placa do veiculo: ");
+                            ler(char_buff);
+
+                            if(checar_placa_existe(servidor, tamanho, char_buff) == 1)
+                            {
+                                printf("Placa ja registrada, tente novamente!\n");
+                            }
+
+                        } while (checar_placa_existe(servidor, tamanho, char_buff) == 1);
+
                         strcpy(servidor[indice_servidor].veiculo[indice_veiculo].placa, char_buff);
 
                         servidor[indice_servidor].veiculo[indice_veiculo].ocupado = 1;
@@ -221,8 +231,18 @@ int main()
                     ler(char_buff);
                     strcpy(servidor[indice_servidor].veiculo[indice_veiculo].modelo, char_buff);
 
-                    printf("Digite a placa do veiculo: ");
-                    ler(char_buff);
+                    do
+                    {
+                        printf("Digite a placa do veiculo: ");
+                        ler(char_buff);
+
+                        if(checar_placa_existe(servidor, tamanho, char_buff) == 1)
+                        {
+                            printf("Placa ja registrada, tente novamente!\n");
+                        }
+
+                    } while (checar_placa_existe(servidor, tamanho, char_buff) == 1);
+
                     strcpy(servidor[indice_servidor].veiculo[indice_veiculo].placa, char_buff);
                 }
                 else
@@ -249,6 +269,8 @@ int main()
                         if(checar_veic_existe(servidor, tamanho, int_buff, &indice_servidor, &indice_veiculo) == 1)
                         {
                             servidor[indice_servidor].veiculo[indice_veiculo].ocupado = 0;
+                            strcpy(servidor[indice_servidor].veiculo[indice_veiculo].descricao, "");
+                            strcpy(servidor[indice_servidor].veiculo[indice_veiculo].placa, "");
                             printf("Veiculo deletado!\n");
                         }
                         else
@@ -276,6 +298,8 @@ int main()
                             for(int i = 0; i < MAX_V; i++)
                             {
                                 servidor[indice_servidor].veiculo[i].ocupado = 0;
+                                strcpy(servidor[indice_servidor].veiculo[indice_veiculo].descricao, "");
+                                strcpy(servidor[indice_servidor].veiculo[indice_veiculo].placa, "");
                             }
                         }
                         else
