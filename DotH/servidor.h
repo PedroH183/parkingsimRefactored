@@ -15,7 +15,7 @@ int check_type_serv(char opcao,char *type_serv);
 int buscar_codigo(int ipt_codigo, size_t* qtd_regis, servidor_t* ptr_str);
 int codigo_gerador(servidor_t *ptr_registros,size_t *quantia_registros);
 int quantia_p_printar(size_t *tamanho, char tipo,servidor_t *ptr_dados);
-const char *rece_type_serv(const char *opcao);
+const char *rece_type_serv(const char opcao);
 
 
 

@@ -9,13 +9,12 @@ servidor_t criar_servidor(servidor_t* ptr_regis, size_t *tamanho)
 { 
     servidor_t novo_servidor;
     int comparar_com_todos = -1;
-    char aux[TAM_STR];
+    char aux;
      
     do{
-
-    strcpy( novo_servidor.nome  ,ler_campo("Digite o nome do Servidor \n>",  novo_servidor.nome   ));
-    strcpy( novo_servidor.siape ,ler_campo("Digite o siape do Servidor\n>",  novo_servidor.siape  ));
-    strcpy( novo_servidor.cpf   ,ler_campo("Digite o cpf do Servidor  \n>",  novo_servidor.cpf    ));
+        strcpy( novo_servidor.nome  ,ler_campo("Digite o nome do Servidor \n>",  novo_servidor.nome   ));
+        strcpy( novo_servidor.siape ,ler_campo("Digite o siape do Servidor\n>",  novo_servidor.siape  ));
+        strcpy( novo_servidor.cpf   ,ler_campo("Digite o cpf do Servidor  \n>",  novo_servidor.cpf    ));
 
     }while( inpt_branco_ou_rept( novo_servidor.nome, novo_servidor.siape, novo_servidor.cpf, ptr_regis, tamanho, comparar_com_todos) );
 
@@ -26,10 +25,11 @@ servidor_t criar_servidor(servidor_t* ptr_regis, size_t *tamanho)
     novo_servidor.codigo =  codigo_gerador(ptr_regis,tamanho);
 
     do{
-        strcpy(      aux           ,ler_campo("Digite o tipo de Servidor\n1-Professor  2-Tecnico\n>>",   aux));
+        printf("Digite o tipo de Servidor\n1-Professor  2-Tecnico\n>>");
+        scanf("%c", &aux);
         strcpy( novo_servidor.tipo ,rece_type_serv(aux) );
 
-      }while( strcmp( aux ,"1") && strcmp( aux ,"2") );
+    }while( aux  != '1' &&  aux != '2' );
 
     for(int i = 0; i < MAX_V; i++)
     {
@@ -69,10 +69,10 @@ void list_serv(char choice, servidor_t* servidor , int *ordenados_indices, size_
   return;
 }
 
-const char *rece_type_serv(const char *opcao)
+const char *rece_type_serv(const char opcao)
 {
-  if( !strcmp(opcao,"1") ) return "Professor";
-  if( !strcmp(opcao,"2") ) return "Tecnico";
+  if( opcao == '1') return "Professor";
+  if( opcao == '2') return "Tecnico";
   else {
     printf("\n");
     return "ERRO";

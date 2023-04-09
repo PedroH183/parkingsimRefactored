@@ -70,18 +70,15 @@ int codigo_gerador(servidor_t *ptr_registros,size_t *quantia_registros)
 
 char ler_menu(char input)
 {
-
+    scanf("%c", &input);
     return input;
 }
 
 char* ler_campo( char *texto, char *campo )
 {
-    fflush(stdin);
     printf( texto );
     scanf("%s", campo);
-    getchar();
     fflush(stdin);
-
   return caixa_correcao(campo);
 }
 
