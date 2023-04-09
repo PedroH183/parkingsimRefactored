@@ -13,7 +13,7 @@ servidor_t* inserir_servidor( servidor_t* servidor_ptr, servidor_t servidor, siz
 {
     (*tamanho)++;
     servidor_ptr = realloc(servidor_ptr, (*tamanho) * sizeof(servidor_t));
-    servidor_ptr[(*tamanho) - 1] = servidor; // recebe - 1 
+    servidor_ptr[ (*tamanho) - 1] = servidor;
 
     return servidor_ptr;
 }

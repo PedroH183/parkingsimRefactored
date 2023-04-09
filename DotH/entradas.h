@@ -10,8 +10,7 @@
 
 char* caixa_correcao(char *campo);
 
-enum menu
-{
+enum menu{
     sair_do_programa = '0',
     insert_servidor = '1',
     alterar_servidor = '2',
@@ -71,17 +70,17 @@ int codigo_gerador(servidor_t *ptr_registros,size_t *quantia_registros)
 
 char ler_menu(char input)
 {
-  scanf("%c", &input);
-  fflush(stdin);
-  return input;
+
+    return input;
 }
 
 char* ler_campo( char *texto, char *campo )
 {
-  printf( texto );
-  fgets( campo, TAM_STR, stdin );
-  campo[ strcspn(campo,"\n") ] = '\0';
-  fflush( stdin );
+    fflush(stdin);
+    printf( texto );
+    scanf("%s", campo);
+    getchar();
+    fflush(stdin);
 
   return caixa_correcao(campo);
 }

@@ -1,8 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <time.h> 
 
 #include "./DotH//estruturas.h"
 #include "./DotH//servidor.h"
@@ -15,9 +13,9 @@ servidor_t criar_servidor(servidor_t* ptr_regis, size_t *tamanho)
      
     do{
 
-    strcpy( novo_servidor.nome  ,ler_campo("Digite o nome do Servidor \n>",  novo_servidor.nome   )); 
-    strcpy( novo_servidor.siape ,ler_campo("Digite o siape do Servidor\n>",  novo_servidor.siape  )); 
-    strcpy( novo_servidor.cpf   ,ler_campo("Digite o cpf do Servidor  \n>",  novo_servidor.cpf    )); 
+    strcpy( novo_servidor.nome  ,ler_campo("Digite o nome do Servidor \n>",  novo_servidor.nome   ));
+    strcpy( novo_servidor.siape ,ler_campo("Digite o siape do Servidor\n>",  novo_servidor.siape  ));
+    strcpy( novo_servidor.cpf   ,ler_campo("Digite o cpf do Servidor  \n>",  novo_servidor.cpf    ));
 
     }while( inpt_branco_ou_rept( novo_servidor.nome, novo_servidor.siape, novo_servidor.cpf, ptr_regis, tamanho, comparar_com_todos) );
 

@@ -5,9 +5,8 @@
 #include "./DotH//estruturas.h"
 #include "./DotH//entradas.h"
 #include "./DotH//arquivos.h"
-#include "./DotH//servidor.h"
 #include "./DotH//veiculo.h"
-#include "./Doth//gerenciamento.h"
+#include "./DotH/gerenciamento.h"
 
 int main()
 {
@@ -46,7 +45,7 @@ int main()
         printf("0. Terminar programa\n\n");
 
         printf("Escolha: ");
-        input = ler_menu(input);
+        scanf(" %c", &input);
         
         switch(input)
         {
@@ -61,7 +60,7 @@ int main()
                 return 0;
 
             case insert_servidor:
-        
+
                 servidor = inserir_servidor(servidor, criar_servidor(servidor,&tamanho), &tamanho);
                 break;
 
@@ -79,8 +78,7 @@ int main()
                 scanf("%d",&codigo);
                 fflush(stdin);
 
-                if(buscar_codigo(codigo, &tamanho, servidor) == -1)
-                {
+                if( buscar_codigo(codigo, &tamanho, servidor) == -1){
                     break;
                 }
                 
@@ -92,7 +90,7 @@ int main()
                     listar_por_servidor(servidor[buscar_codigo(codigo,&tamanho,servidor)]);
 
                     printf("\n##DESEJA REALMENTE DELETAR O SERVIDOR?##\n1-SIM\t2-NAO\n>");
-                    scanf("%c",&opt);
+                    scanf(" %c",&opt);
                     fflush(stdin);
 
                     switch ( opt )
@@ -107,7 +105,7 @@ int main()
                 }else {
                     servidor = deletar_servidor(servidor,buscar_codigo(codigo,&tamanho,servidor), &tamanho);
                 }
-            
+                fflush(stdin);
                 break;
             case listar_servidor:
 
@@ -117,9 +115,8 @@ int main()
                 printf("3. Printar Todos \n");
                 printf("4. Printar um servidor pelo cod dele.\n");
                 printf("5. Para retornar ao menu\n");
-                    
-                scanf("%c",&input);
-                fflush(stdin);
+
+                scanf(" %c", &input);
 
                 if(!tamanho)
                 {
